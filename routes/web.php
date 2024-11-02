@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('index');
-});
+})->middleware('guest');
 
 Route::view('index', 'index')->name('index');
 Route::view('project_dashboard', 'project_dashboard')->name('project_dashboard');
@@ -97,7 +97,6 @@ Route::view('invoice', 'invoice')->name('invoice');
 
 Route::view('kanban_board', 'kanban_board')->name('kanban_board');
 
-Route::view('landing', 'landing')->name('landing');
 Route::view('leaflet_map', 'leaflet_map')->name('leaflet_map');
 Route::view('line_chart', 'line_chart')->name('line_chart');
 Route::view('list', 'list')->name('list');

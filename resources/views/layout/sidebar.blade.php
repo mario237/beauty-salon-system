@@ -344,7 +344,6 @@
                 <ul class="collapse" id="other_pages">
                     <li><a href="{{route('blank')}}">Blank</a></li>
                     <li><a href="{{route('maintenance')}}">Maintenance</a></li>
-                    <li><a href="{{route('landing')}}">Landing Page</a></li>
                     <li><a href="{{route('coming_soon')}}">Coming Soon</a></li>
                     <li><a href="{{route('sitemap')}}">Sitemap</a></li>
                     <li><a href="{{route('privacy_policy')}}">Privacy Policy</a></li>
