@@ -22,7 +22,7 @@
                 </a>
                 <ul class="collapse" id="dashboard">
                     <li><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                    <li><a href="{{ route('index') }}">Customers</a></li>
+                    <li><a href="{{ route('admin.customers.index') }}">Customers</a></li>
                 </ul>
             </li>
         </ul>

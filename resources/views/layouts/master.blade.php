@@ -2,13 +2,14 @@
 <html lang="en">
 
 <head>
+    <title>@yield('title') | {{ config('app.name') }}</title>
     <!-- All meta and title start-->
-@include('layouts.head')
-<!-- meta and title end-->
+    @include('layouts.head')
+    <!-- meta and title end-->
 
     <!-- css start-->
-@include('layouts.css')
-<!-- css end-->
+    @include('layouts.css')
+    <!-- css end-->
 </head>
 
 <body>
@@ -20,14 +21,14 @@
     <!-- Loader end-->
 
     <!-- Menu Navigation start -->
-@include('layouts.sidebar')
-<!-- Menu Navigation end -->
+    @include('layouts.sidebar')
+    <!-- Menu Navigation end -->
 
 
     <div class="app-content">
         <!-- Header Section start -->
-    @include('layouts.header')
-    <!-- Header Section end -->
+        @include('layouts.header')
+        <!-- Header Section end -->
 
         <!-- Main Section start -->
         <main>
@@ -45,13 +46,10 @@
     </div>
 
     <!-- Footer Section start -->
-     @include('layouts.footer')
+    @include('layouts.footer')
     <!-- Footer Section end -->
 </div>
 </body>
-
-<!--customizer-->
-<div id="customizer"></div>
 
 <!-- scripts start-->
 @include('layouts.script')

@@ -25,6 +25,6 @@
 <!-- Simplebar css-->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/simplebar/simplebar.css') }}">
 
-@yield('css')
+@stack('css')
 
 @vite(['public/assets/scss/style.scss'])

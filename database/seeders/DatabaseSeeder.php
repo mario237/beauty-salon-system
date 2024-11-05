@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,5 +21,7 @@ class DatabaseSeeder extends Seeder
            'email' => 'admin@example.com',
            'password' => bcrypt('123456789'),
        ]);
+
+       Customer::factory(100)->create();
     }
 }

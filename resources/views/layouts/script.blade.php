@@ -19,4 +19,4 @@
 <!-- App js-->
 <script src="{{asset('assets/js/script.js')}}"></script>
 
-@yield('script')
+@stack('script')

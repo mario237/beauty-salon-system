@@ -56,6 +56,7 @@ Route::view('count_down', 'count_down')->name('count_down');
 Route::view('count_up', 'count_up')->name('count_up');
 
 Route::view('data_table', 'data_table')->name('data_table');
+Route::view('calendar', 'calendar')->name('calendar');
 Route::view('date_picker', 'date_picker')->name('date_picker');
 Route::view('default_forms', 'default_forms')->name('default_forms');
 Route::view('divider', 'divider')->name('divider');
