@@ -41,6 +41,7 @@
                                     <th>Phone Number</th>
                                     <th>Source</th>
                                     <th>Added By</th>
+                                    <th>Added At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -55,6 +56,7 @@
                                             </span>
                                         </td>
                                         <td>{{ $customer->addedBy->name }}</td>
+                                        <td>{{ $customer->created_at->format('Y-m-d h:s A') }}</td>
                                         <td>
                                             <a href="{{ route('admin.customers.edit', $customer->id) }}" type="button"
                                                class="btn btn-light-primary icon-btn b-r-4">
