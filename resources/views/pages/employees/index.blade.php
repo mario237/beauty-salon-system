@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Departments')
+@section('title', 'Employees')
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/toastify/toastify.css')}}">
@@ -10,7 +10,7 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12 ">
-                <h4 class="main-title">Departments</h4>
+                <h4 class="main-title">Employees</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li class="">
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
@@ -20,7 +20,7 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a href="{{ route('admin.departments.index') }}" class="f-s-14 f-w-500">Departments</a>
+                        <a href="{{ route('admin.employees.index') }}" class="f-s-14 f-w-500">Employees</a>
                     </li>
                 </ul>
             </div>
@@ -30,8 +30,7 @@
             <div class="col-12">
                 <div class="card ">
                     <div class="card-header">
-                        <a class="btn btn-primary btn-md" href="{{ route('admin.departments.create') }}">Add
-                            Department</a>
+                        <a class="btn btn-primary btn-md" href="{{ route('admin.employees.create') }}">Add Employee</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="app-datatable-default overflow-auto">
@@ -39,27 +38,31 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Department</th>
                                     <th>Added By</th>
                                     <th>Added At</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($departments as $department)
+                                @foreach ($employees as $employee)
                                     <tr>
-                                        <td>{{ $department->name }}</td>
-
-                                        <td>{{ $department->addedBy->name }}</td>
-                                        <td>{{ $department->created_at->format('Y-m-d h:s A') }}</td>
+                                        <td>{{ $employee->name }}</td>
+                                        <td>{{ $employee->phone_number }}</td>
                                         <td>
-                                            <a href="{{ route('admin.departments.edit', $department->id) }}"
-                                               type="button"
+                                            {{ $employee->department->name }}
+                                        </td>
+                                        <td>{{ $employee->addedBy->name }}</td>
+                                        <td>{{ $employee->created_at->format('Y-m-d h:s A') }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.employees.edit', $employee->id) }}" type="button"
                                                class="btn btn-light-primary icon-btn b-r-4">
                                                 <i class="ti ti-edit text-primary"></i>
                                             </a>
                                             <button type="button"
                                                     class="btn btn-light-danger icon-btn b-r-4"
-                                                    onclick="deleteDepartment('{{ $department->id }}')">
+                                                    onclick="deleteEmployee('{{ $employee->id }}')">
                                                 <i class="ti ti-trash"></i>
                                             </button>
                                         </td>
@@ -90,6 +93,7 @@
     @if(session()->has('success'))
         <script>
             let message = "{{ session()->get('success') }}";
+            console.log(message)
             Toastify({
                 text: message,
                 duration: 3000,
@@ -101,10 +105,9 @@
         </script>
         @php session()->forget('success') @endphp
     @endif
-
     <script>
-        function deleteDepartment(id) {
-            let url = '{{ route("admin.departments.destroy", ":id") }}';
+        function deleteEmployee(id) {
+            let url = '{{ route("admin.employees.destroy", ":id") }}';
             url = url.replace(':id', id);
             let message = '';
             Swal.fire({
@@ -129,7 +132,7 @@
                         }
                         return response.json()
                     }).then(data => {
-                        message = data.message;
+                       message = data.message;
                     }).catch(error => {
                         Swal.showValidationMessage(
                             `Request failed: ${error}`
