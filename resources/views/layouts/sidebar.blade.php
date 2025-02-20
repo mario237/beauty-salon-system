@@ -23,6 +23,7 @@
                 <ul class="collapse" id="dashboard">
                     <li><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li><a href="{{ route('admin.customers.index') }}">Customers</a></li>
+                    <li><a href="{{ route('admin.departments.index') }}">Departments</a></li>
                 </ul>
             </li>
         </ul>
