@@ -25,6 +25,12 @@
 <!-- Simplebar css-->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/simplebar/simplebar.css') }}">
 
+<style>
+    .app-form .form-select, .app-form .form-control{
+        color: black !important;
+    }
+</style>
+
 @stack('css')
 
 @vite(['public/assets/scss/style.scss'])

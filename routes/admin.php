@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web']], function (){
@@ -16,6 +17,7 @@ Route::group(['middleware' => ['web']], function (){
         Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
         Route::resource('customers', CustomerController::class);
         Route::resource('departments', DepartmentController::class);
+        Route::resource('services', ServiceController::class);
         Route::resource('employees', EmployeeController::class);
     });
 });

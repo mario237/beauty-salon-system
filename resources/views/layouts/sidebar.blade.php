@@ -24,6 +24,7 @@
                     <li><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li><a href="{{ route('admin.customers.index') }}">Customers</a></li>
                     <li><a href="{{ route('admin.departments.index') }}">Departments</a></li>
+                    <li><a href="{{ route('admin.services.index') }}">Services</a></li>
                     <li><a href="{{ route('admin.employees.index') }}">Employees</a></li>
                 </ul>
             </li>
