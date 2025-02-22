@@ -39,7 +39,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Phone Number</th>
-                                    <th>Department</th>
+                                    <th>Services</th>
                                     <th>Added By</th>
                                     <th>Added At</th>
                                     <th>Action</th>
@@ -51,7 +51,9 @@
                                         <td>{{ $employee->name }}</td>
                                         <td>{{ $employee->phone_number }}</td>
                                         <td>
-                                            {{ $employee->department->name }}
+                                            @foreach($employee->services as $service)
+                                                <span class="badge bg-info">{{ $service->name }}</span>
+                                            @endforeach
                                         </td>
                                         <td>{{ $employee->addedBy->name }}</td>
                                         <td>{{ $employee->created_at->format('Y-m-d h:s A') }}</td>

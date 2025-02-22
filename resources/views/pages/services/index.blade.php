@@ -50,11 +50,12 @@
                                 @foreach ($services as $service)
                                     <tr>
                                         <td>{{ $service->name }}</td>
-                                        <td>{{ $service->price }} EGP</td>
-                                        <td>{{ $service->duration }} minute </td>
                                         <td>
                                             {{ $service->department->name }}
                                         </td>
+                                        <td>{{ $service->price }} EGP</td>
+                                        <td>{{ $service->duration }} minute </td>
+
                                         <td>{{ $service->addedBy->name }}</td>
                                         <td>{{ $service->created_at->format('Y-m-d h:s A') }}</td>
                                         <td>

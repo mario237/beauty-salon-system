@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\EmployeeRequest;
-use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,45 +13,43 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::with(['department','addedBy'])->latest()->get();
+        $employees = Employee::with(['services', 'addedBy'])->latest()->get();
         return view('pages.employees.index', compact('employees'));
     }
 
     public function create()
     {
-        $departments = Department::latest()->get();
-        return view('pages.employees.create', compact('departments'));
+        $services = Service::all();
+        return view('pages.employees.create', compact('services'));
     }
 
     public function store(EmployeeRequest $request)
     {
-        $employee = $request->validated();
-        $employee['added_by'] = Auth::user()->id;
-        Employee::create($employee);
+        $data = $request->validated();
+        $data['added_by'] = Auth::user()->id;
+        $employee = Employee::create($data);
+        $employee->services()->sync($request->services);
         return redirect()->route('admin.employees.index')->with(['success' => 'Employee is created successfully']);
-    }
-
-    public function show($id)
-    {
     }
 
     public function edit($id)
     {
-        $employee = Employee::find($id);
-        $departments = Department::latest()->get();
-        return view('pages.employees.edit', compact('employee','departments'));
+        $employee = Employee::findOrFail($id);
+        $services = Service::all();
+        return view('pages.employees.edit', compact('employee', 'services'));
     }
 
     public function update(EmployeeRequest $request, $id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::findOrFail($id);
         $employee->update($request->validated());
+        $employee->services()->sync($request->services);
         return redirect()->route('admin.employees.index')->with(['success' => 'Employee is updated successfully']);
     }
 
     public function destroy($id)
     {
-        Employee::find($id)->delete();
+        Employee::findOrFail($id)->delete();
         return response()->json([
             'success' => 'true',
             'message' => 'Employee is deleted successfully'

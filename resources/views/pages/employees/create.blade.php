@@ -59,18 +59,21 @@
                                 @enderror
                             </div>
                             <div class="form-group my-4">
-                                <label for="department_id">Department</label>
+                                <label for="services">Services</label>
 
-                                <select class="select-example form-select select-basic" name="department_id">
-                                    @foreach($departments as $department)
-                                        <option
-                                            value="{{ $department->id }}">{{ $department->name }}</option>
+                                <select class="select-example form-select select-basic" name="services[]" multiple>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->id }}">
+                                            {{ $service->name }}
+                                        </option>
                                     @endforeach
                                 </select>
-                                @error('department_id')
+
+                                @error('services')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+
                             <button class="btn ripple btn-primary" type="submit">Save</button>
                             <a class="btn ripple btn-secondary" href="{{ route('admin.employees.index') }}">
                                 back
