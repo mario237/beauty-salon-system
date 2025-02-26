@@ -26,6 +26,7 @@
                     <li><a href="{{ route('admin.departments.index') }}">Departments</a></li>
                     <li><a href="{{ route('admin.services.index') }}">Services</a></li>
                     <li><a href="{{ route('admin.employees.index') }}">Employees</a></li>
+                    <li><a href="{{ route('admin.reservations.index') }}">Reservations</a></li>
                 </ul>
             </li>
         </ul>

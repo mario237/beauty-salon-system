@@ -20,4 +20,11 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'added_by', 'id');
     }
+
+    public function reservations()
+    {
+        return $this->belongsToMany(Reservation::class, 'reservation_service')
+            ->withPivot(['employee_id', 'amount', 'discount', 'discount_type', 'note'])
+            ->withTimestamps();
+    }
 }

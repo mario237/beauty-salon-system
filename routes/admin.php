@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,8 @@ Route::group(['middleware' => ['web']], function (){
         Route::resource('departments', DepartmentController::class);
         Route::resource('services', ServiceController::class);
         Route::resource('employees', EmployeeController::class);
+        Route::get('employees-by-service/{service}', [EmployeeController::class, 'getAvailableEmployees'])
+            ->name('employees.by.service');
+        Route::resource('reservations', ReservationController::class);
     });
 });

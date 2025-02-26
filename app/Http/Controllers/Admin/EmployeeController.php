@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\EmployeeRequest;
 use App\Models\Employee;
+use App\Models\Reservation;
+use App\Models\ReservationService;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,5 +57,26 @@ class EmployeeController extends Controller
             'success' => 'true',
             'message' => 'Employee is deleted successfully'
         ]);
+    }
+    public function getAvailableEmployees($serviceId, Request $request)
+    {
+        $startTime = Carbon::parse($request->query('start_time'));
+
+        // Get employees providing the requested service
+        $employees = Employee::whereHas('services', function ($query) use ($serviceId) {
+            $query->where('service_id', $serviceId);
+        })->get();
+
+        // Filter out employees who have conflicting reservations at the given time
+        $availableEmployees = $employees->filter(function ($employee) use ($startTime) {
+            return !ReservationService::where('employee_id', $employee->id)
+                ->whereHas('reservation', function ($query) use ($startTime) {
+                    $query->where('start_datetime', '<=', $startTime)
+                        ->where('end_datetime', '>', $startTime);
+                })
+                ->exists();
+        });
+
+        return response()->json($availableEmployees);
     }
 }
