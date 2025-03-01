@@ -14,7 +14,8 @@ class CustomerRequest extends FormRequest
             'name' => ['required'],
             'phone_number' => [
                 'required' , 'numeric' ,
-                Rule::unique('customers' , 'phone_number')->ignore($this->customer ?? 0),
+                Rule::unique('customers' , 'phone_number')
+                    ->whereNull('deleted_at')->ignore($this->customer ?? 0),
                 'regex:/^(01)(0|1|2|5)[0-9]{8}$/'
             ],
             'source' => ['required', Rule::in(CustomerSource::values())],
