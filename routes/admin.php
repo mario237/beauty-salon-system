@@ -22,6 +22,7 @@ Route::group(['middleware' => ['web']], function (){
         Route::resource('employees', EmployeeController::class);
         Route::get('employees-by-service/{service}', [EmployeeController::class, 'getAvailableEmployees'])
             ->name('employees.by.service');
+        Route::get('reservation-employee/{reservationId}/{serviceId}', [ReservationController::class, 'getEmployeeForService']);
         Route::resource('reservations', ReservationController::class);
     });
 });

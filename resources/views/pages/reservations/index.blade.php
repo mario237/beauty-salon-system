@@ -44,14 +44,19 @@
                                         <td>${{ $reservation->total_price }}</td>
                                         <td>{{ ucfirst($reservation->status) }}</td>
                                         <td>
-                                            <a href="{{ route('admin.reservations.edit', $reservation->id) }}"
-                                               class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('admin.reservations.destroy', $reservation->id) }}"
-                                                  method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                            <a href="{{ route('admin.reservations.edit', $reservation->id) }}" type="button"
+                                               class="btn btn-light-primary icon-btn b-r-4">
+                                                <i class="ti ti-edit text-primary"></i>
+                                            </a>
+                                            <a href="{{ route('admin.reservations.show', $reservation->id) }}" type="button"
+                                               class="btn btn-light-info icon-btn b-r-4">
+                                                <i class="ti ti-eye text-info"></i>
+                                            </a>
+                                            <button type="button"
+                                                    class="btn btn-light-danger icon-btn b-r-4"
+                                                    onclick="deleteReservation('{{ $reservation->id }}')">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -92,8 +97,8 @@
         @php session()->forget('success') @endphp
     @endif
     <script>
-        function deleteEmployee(id) {
-            let url = '{{ route("admin.employees.destroy", ":id") }}';
+        function deleteReservation(id) {
+            let url = '{{ route("admin.reservations.destroy", ":id") }}';
             url = url.replace(':id', id);
             let message = '';
             Swal.fire({
@@ -140,5 +145,6 @@
                 }
             });
         }
+
     </script>
 @endpush

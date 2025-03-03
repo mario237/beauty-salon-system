@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReservationRequest;
 use App\Models\Customer;
 use App\Models\Reservation;
+use App\Models\ReservationService;
 use App\Models\Service;
 use Carbon\Carbon;
 use Exception;
@@ -94,17 +95,88 @@ class ReservationController extends Controller
 
     public function show(Reservation $reservation)
     {
+        $reservation = Reservation::with(['customer', 'services', 'services.employee'])->findOrFail($reservation->id);
+        return view('pages.reservations.show', compact('reservation'));
     }
 
-    public function edit(Reservation $reservation)
+    public function edit($id)
     {
+        $reservation = Reservation::with('services')->findOrFail($id);
+        $sources = CustomerSource::values();
+        $customers = Customer::all();
+        $services = Service::all();
+        return view('pages.reservations.edit', compact('reservation', 'customers', 'services', 'sources'));
     }
 
-    public function update(Request $request, Reservation $reservation)
+    public function update(ReservationRequest $request, $id)
     {
+        $validated = $request->validated();
+        try {
+            DB::beginTransaction();
+
+            $reservation = Reservation::findOrFail($id);
+            $startDatetime = Carbon::parse($validated['start_datetime']);
+            $totalDuration = Service::whereIn('id', $request->services)->sum('duration');
+            $endDatetime = $startDatetime->copy()->addMinutes((int)$totalDuration);
+
+            $reservation->update([
+                'customer_id' => $validated['customer_id'],
+                'start_datetime' => $startDatetime,
+                'end_datetime' => $endDatetime,
+                'added_by' => auth()->id(),
+                'total_price' => 0,
+                'status' => 'pending',
+            ]);
+
+            $totalPrice = 0;
+            $reservation->services()->delete();
+
+            foreach ($request->services as $index => $serviceId) {
+                $service = Service::find($serviceId);
+                $amount = $service->price;
+                $discount = $request->discount[$index] ?? 0;
+                $discountType = $request->discount_type[$index] ?? 'flat';
+
+                $discountAmount = ($discountType === 'percentage') ? ($discount / 100) * $amount : $discount;
+                $finalAmount = max($amount - $discountAmount, 0);
+                $totalPrice += $finalAmount;
+
+                $reservation->services()->create([
+                    'service_id' => $serviceId,
+                    'employee_id' => $request->employees[$index] ?? null,
+                    'amount' => $finalAmount,
+                    'discount' => $discount,
+                    'discount_type' => $discountType,
+                    'note' => $request->note ?? null,
+                ]);
+            }
+
+            $reservation->update(['total_price' => $totalPrice]);
+            DB::commit();
+            return response()->json(['message' => 'Reservation updated successfully!'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    public function destroy(Reservation $reservation)
+
+    public function destroy($id)
     {
+        Reservation::find($id)->delete();
+        return response()->json([
+            'success' => 'true',
+            'message' => 'Reservation is deleted successfully'
+        ]);
     }
+    public function getEmployeeForService($reservationId, $serviceId)
+    {
+        $employee = ReservationService::where([
+            'reservation_id' => $reservationId,
+            'service_id' => $serviceId
+        ])->first('employee_id');
+
+        return response()->json($employee);
+    }
+
 }

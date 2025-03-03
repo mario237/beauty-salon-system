@@ -68,8 +68,11 @@ class EmployeeController extends Controller
         })->get();
 
         // Filter out employees who have conflicting reservations at the given time
-        $availableEmployees = $employees->filter(function ($employee) use ($startTime) {
+        $availableEmployees = $employees->filter(function ($employee) use ($request, $startTime) {
             return !ReservationService::where('employee_id', $employee->id)
+                ->when($request->get('reservation_id'), function ($query) use ($request) {
+                    $query->whereNot('reservation_id', $request->get('reservation_id'));
+                })
                 ->whereHas('reservation', function ($query) use ($startTime) {
                     $query->where('start_datetime', '<=', $startTime)
                         ->where('end_datetime', '>', $startTime);
