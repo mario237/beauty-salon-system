@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('added_by')->nullable()->constrained('users')->nullOnDelete();
             $table->decimal('total_price', 10, 2)->default(0.00);
             $table->string('status')->default('pending');
+            $table->text('cancel_reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

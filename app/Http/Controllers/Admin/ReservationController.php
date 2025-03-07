@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\CustomerSource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ReservationRequest;
+use App\Http\Requests\Admin\ReservationStatusRequest;
 use App\Models\Customer;
 use App\Models\Reservation;
 use App\Models\ReservationService;
@@ -95,7 +96,7 @@ class ReservationController extends Controller
 
     public function show(Reservation $reservation)
     {
-        $reservation = Reservation::with(['customer', 'services', 'services.employee'])->findOrFail($reservation->id);
+        $reservation = Reservation::with(['customer', 'services', 'services.employee', 'transactions'])->findOrFail($reservation->id);
         return view('pages.reservations.show', compact('reservation'));
     }
 
@@ -178,5 +179,17 @@ class ReservationController extends Controller
 
         return response()->json($employee);
     }
+    public function updateStatus(ReservationStatusRequest $request)
+    {
+        $reservation = Reservation::findOrFail($request->validated('id'));
+        $reservation->status = $request->validated('status');
+        if ($request->status === 'cancelled') {
+            $reservation->cancel_reason = $request->validated('reason');
+        }
+        $reservation->save();
 
+        return response()->json([
+            'message' => 'Reservation status updated successfully.'
+        ]);
+    }
 }

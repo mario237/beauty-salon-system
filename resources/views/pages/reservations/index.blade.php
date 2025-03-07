@@ -32,6 +32,7 @@
                                     <th>End Time</th>
                                     <th>Total Price</th>
                                     <th>Status</th>
+                                    <th>Payment</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -39,16 +40,37 @@
                                 @foreach ($reservations as $reservation)
                                     <tr>
                                         <td>{{ $reservation->customer->name }}</td>
-                                        <td>{{ $reservation->start_datetime }}</td>
-                                        <td>{{ $reservation->end_datetime }}</td>
-                                        <td>${{ $reservation->total_price }}</td>
-                                        <td>{{ ucfirst($reservation->status) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reservation->start_datetime)->format('d M Y - h:i A') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reservation->end_datetime)->format('d M Y - h:i A') }}</td>
+                                        <td>{{ $reservation->total_price }} EGP</td>
                                         <td>
-                                            <a href="{{ route('admin.reservations.edit', $reservation->id) }}" type="button"
+                                            @if($reservation->status === 'pending')
+                                                <span
+                                                    class="badge text-warning">{{ ucfirst($reservation->status) }}</span>
+                                            @elseif($reservation->status === 'confirmed')
+                                                <span
+                                                    class="badge text-success">{{ ucfirst($reservation->status) }}</span>
+                                            @elseif($reservation->status === 'confirmed')
+                                                <span
+                                                    class="badge text-danger">{{ ucfirst($reservation->status) }}</span>
+                                            @else
+                                                <span class="badge text-info">{{ ucfirst($reservation->status) }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                             <span
+                                                 class="badge text-{{ $reservation->transactions->where('status', 'paid')->count() ? 'success' : 'danger' }}">
+                                             {{ $reservation->transactions->where('status', 'paid')->count() ? 'Paid' : 'Unpaid' }}
+                                    </span>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.reservations.edit', $reservation->id) }}"
+                                               type="button"
                                                class="btn btn-light-primary icon-btn b-r-4">
                                                 <i class="ti ti-edit text-primary"></i>
                                             </a>
-                                            <a href="{{ route('admin.reservations.show', $reservation->id) }}" type="button"
+                                            <a href="{{ route('admin.reservations.show', $reservation->id) }}"
+                                               type="button"
                                                class="btn btn-light-info icon-btn b-r-4">
                                                 <i class="ti ti-eye text-info"></i>
                                             </a>

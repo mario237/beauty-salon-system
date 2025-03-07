@@ -15,3 +15,23 @@ if (!function_exists('customerSourceBadge')) {
         return $badgeClasses[$source] ?? 'text-light-secondary';
     }
 }
+
+if (!function_exists('getPaymentMethods')) {
+    function getPaymentMethods(): array
+    {
+        return [
+            [
+                'value' => 'cash',
+                'text' => 'Cash',
+            ],
+            [
+                'value' => 'visa',
+                'text' => 'Visa',
+            ],
+            [
+                'value' => 'instapay',
+                'text' => 'InstaPay',
+            ],
+        ];
+    }
+}

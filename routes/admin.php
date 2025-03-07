@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web']], function (){
@@ -23,6 +24,9 @@ Route::group(['middleware' => ['web']], function (){
         Route::get('employees-by-service/{service}', [EmployeeController::class, 'getAvailableEmployees'])
             ->name('employees.by.service');
         Route::get('reservation-employee/{reservationId}/{serviceId}', [ReservationController::class, 'getEmployeeForService']);
+        Route::post('reservations/update-status', [ReservationController::class, 'updateStatus'])
+            ->name('reservations.updateStatus');
         Route::resource('reservations', ReservationController::class);
+        Route::resource('transactions', TransactionController::class);
     });
 });
