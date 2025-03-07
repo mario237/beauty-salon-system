@@ -97,7 +97,9 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         $reservation = Reservation::with(['customer', 'services', 'services.employee', 'transactions'])->findOrFail($reservation->id);
-        return view('pages.reservations.show', compact('reservation'));
+        $isPaid = $reservation->transactions->where('status', 'paid')->count() && $reservation->transactions->sum('amount') >= $reservation->total_price;
+        $totalPaid = $reservation->transactions->sum('amount');
+        return view('pages.reservations.show', compact('reservation', 'isPaid', 'totalPaid'));
     }
 
     public function edit($id)

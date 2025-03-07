@@ -10,19 +10,19 @@
         </span>
     </div>
     <div class="app-nav" id="app-simple-bar">
-        <ul class="main-nav p-0 mt-2">
+        <ul class="main-nav p-0 mt-4">
             <li>
-                <a class="" data-bs-toggle="collapse" href="#dashboard" aria-expanded="false">
+                <a class="" data-bs-toggle="collapse" href="#dashboard" aria-expanded="true">
                     <i class="ph-duotone  ph-house-line"></i>
                     dashboard
                 </a>
-                <ul class="collapse" id="dashboard">
-                    <li><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                    <li><a href="{{ route('admin.customers.index') }}">Customers</a></li>
-                    <li><a href="{{ route('admin.departments.index') }}">Departments</a></li>
-                    <li><a href="{{ route('admin.services.index') }}">Services</a></li>
-                    <li><a href="{{ route('admin.employees.index') }}">Employees</a></li>
-                    <li><a href="{{ route('admin.reservations.index') }}">Reservations</a></li>
+                <ul class="collapse show" id="dashboard">
+                    <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : ''}}"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="{{ request()->routeIs('admin.customers.*') ? 'active' : ''}}"><a href="{{ route('admin.customers.index') }}">Customers</a></li>
+                    <li class="{{ request()->routeIs('admin.departments.*') ? 'active' : ''}}"><a href="{{ route('admin.departments.index') }}">Departments</a></li>
+                    <li class="{{ request()->routeIs('admin.services.*') ? 'active' : ''}}"><a href="{{ route('admin.services.index') }}">Services</a></li>
+                    <li class="{{ request()->routeIs('admin.employees.*') ? 'active' : ''}}"><a href="{{ route('admin.employees.index') }}">Employees</a></li>
+                    <li class="{{ request()->routeIs('admin.reservations.*') ? 'active' : ''}}"><a href="{{ route('admin.reservations.index') }}">Reservations</a></li>
                 </ul>
             </li>
         </ul>

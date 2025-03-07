@@ -16,6 +16,13 @@ class Reservation extends Model
 
     protected $guarded = ['id'];
 
+    protected function casts(): array
+    {
+        return [
+            'total_price' => 'float'
+        ];
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(ReservationService::class);

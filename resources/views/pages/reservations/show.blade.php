@@ -42,6 +42,9 @@
                                 <p><strong>Date &
                                         Time:</strong> {{ \Carbon\Carbon::parse($reservation->start_datetime)->format('d M Y - h:i A') }}
                                 </p>
+                                <p class="my-2"><strong>Total Reservation:</strong>
+                                    {{ $reservation->total_price }}
+                                </p>
                                 <p class="my-2"><strong>Status:</strong>
                                     @if($reservation->status === 'pending')
                                         <span
@@ -125,10 +128,15 @@
                                         class="badge text-info f-s-12">{{ ucfirst($reservation->status) }}</span>
                                 @endif
 
-                                <p class="my-2"><strong>Payment:</strong>
-                                    <span class="badge text-{{ $reservation->transactions->where('status', 'paid')->count() ? 'success' : 'danger' }}">
-                                             {{ $reservation->transactions->where('status', 'paid')->count() ? 'Paid' : 'Unpaid' }}
+                                <p class="my-2"><strong>Payment Status:</strong>
+                                    <span class="badge text-{{ $isPaid ? 'success' : 'danger' }}">
+                                             {{ $isPaid ? 'Paid' : 'Unpaid' }}
                                     </span>
+                                </p>
+
+                                <p class="my-2"><strong>Total Paid:</strong>
+                                    {{ $totalPaid }}
+                                </p>
                             </div>
                         </div>
 

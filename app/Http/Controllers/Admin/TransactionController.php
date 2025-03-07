@@ -28,13 +28,16 @@ class TransactionController extends Controller
             return response()->json(['message' => 'Reservation is not confirmed!'], 400);
         }
 
+
         $transaction = $reservation->transactions()->create([
             'amount' => $request->amount,
             'payment_method' => $request->payment_method,
             'status' => 'paid',
         ]);
 
-        $reservation->update(['status' => 'completed']);
+        if ($reservation->transactions->sum('amount') >=  $reservation->total_price){
+            $reservation->update(['status' => 'completed']);
+        }
 
         return response()->json(['message' => 'Payment successful!', 'transaction' => $transaction]);
     }
