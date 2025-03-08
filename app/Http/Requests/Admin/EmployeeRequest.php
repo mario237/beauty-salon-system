@@ -14,7 +14,8 @@ class EmployeeRequest extends FormRequest
             'name' => ['required'],
             'phone_number' => [
                 'required' , 'numeric' ,
-                Rule::unique('employees' , 'phone_number')->ignore($this->employee ?? 0),
+                Rule::unique('employees' , 'phone_number')
+                    ->whereNull('deleted_at')->ignore($this->employee ?? 0),
                 'regex:/^(01)(0|1|2|5)[0-9]{8}$/'
             ],
             'services' => ['required','array'],
