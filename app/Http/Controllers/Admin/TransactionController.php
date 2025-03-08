@@ -8,6 +8,8 @@ use App\Models\Reservation;
 use App\Models\Transaction;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class TransactionController extends Controller
 {
@@ -22,25 +24,33 @@ class TransactionController extends Controller
 
     public function store(TransactionRequest $request): JsonResponse
     {
-        $reservation = Reservation::findOrFail($request->reservation_id);
+        try {
+            DB::beginTransaction();
+            $reservation = Reservation::findOrFail($request->reservation_id);
 
-        if ($reservation->status !== 'confirmed') {
-            return response()->json(['message' => 'Reservation is not confirmed!'], 400);
+            if ($reservation->status !== 'confirmed') {
+                return response()->json(['message' => 'Reservation is not confirmed!'], 400);
+            }
+
+
+            $transaction = $reservation->transactions()->create([
+                'amount' => $request->amount,
+                'payment_method' => $request->payment_method,
+                'status' => 'paid',
+            ]);
+
+            if ($reservation->transactions->sum('amount') >= $reservation->total_price) {
+                $reservation->update(['status' => 'completed']);
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Payment successful!', 'transaction' => $transaction]);
+        } catch (Throwable $throwable) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error has been occurred']);
         }
-
-
-        $transaction = $reservation->transactions()->create([
-            'amount' => $request->amount,
-            'payment_method' => $request->payment_method,
-            'status' => 'paid',
-        ]);
-
-        if ($reservation->transactions->sum('amount') >=  $reservation->total_price){
-            $reservation->update(['status' => 'completed']);
-        }
-
-        return response()->json(['message' => 'Payment successful!', 'transaction' => $transaction]);
     }
+
     public function show($id)
     {
     }

@@ -12,8 +12,8 @@ use App\Models\ReservationService;
 use App\Models\Service;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class ReservationController extends Controller
 {
@@ -88,9 +88,9 @@ class ReservationController extends Controller
 
             DB::commit();
             return response()->json(['message' => 'Reservation added successfully!'], 200);
-        } catch (Exception $e) {
+        } catch (Throwable) {
             DB::rollback();
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Error has been occurred']);
         }
     }
 
@@ -157,9 +157,9 @@ class ReservationController extends Controller
             $reservation->update(['total_price' => $totalPrice]);
             DB::commit();
             return response()->json(['message' => 'Reservation updated successfully!'], 200);
-        } catch (Exception $e) {
+        } catch (Throwable) {
             DB::rollback();
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Error has been occurred']);
         }
     }
 

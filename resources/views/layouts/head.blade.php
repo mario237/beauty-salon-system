@@ -8,3 +8,4 @@
 <meta name="author" content="la-themes">
 <link rel="icon" href="{{('../assets/images/logo/favicon.png')}}" type="image/x-icon">
 <link rel="shortcut icon" href="{{('../assets/images/logo/favicon.png')}}" type="image/x-icon">
+<link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">

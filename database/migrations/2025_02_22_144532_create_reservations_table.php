@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-            $table->dateTime('start_datetime');
-            $table->dateTime('end_datetime')->nullable();
+            $table->timestamp('start_datetime');
+            $table->timestamp('end_datetime')->nullable();
             $table->foreignId('added_by')->nullable()->constrained('users')->nullOnDelete();
             $table->decimal('total_price', 10, 2)->default(0.00);
             $table->string('status')->default('pending');

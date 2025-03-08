@@ -15,8 +15,17 @@
 <body>
 <!-- Loader start-->
 <div class="app-wrapper">
-    <div class="loader-wrapper">
-        <div class="loader_16"></div>
+    <div class="overlay">
+        <div class="mesh-loader">
+            <div class="set-one">
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <div class="set-two">
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
     </div>
     <!-- Loader end-->
 

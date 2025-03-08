@@ -27,7 +27,8 @@
                             <table id="example" class="display app-data-table default-data-table">
                                 <thead>
                                 <tr>
-                                    <th>Customer</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Phone</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
                                     <th>Total Price</th>
@@ -40,6 +41,7 @@
                                 @foreach ($reservations as $reservation)
                                     <tr>
                                         <td>{{ $reservation->customer->name }}</td>
+                                        <td>{{ $reservation->customer->phone_number }}</td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->start_datetime)->format('d M Y - h:i A') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($reservation->end_datetime)->format('d M Y - h:i A') }}</td>
                                         <td>{{ $reservation->total_price }} EGP</td>

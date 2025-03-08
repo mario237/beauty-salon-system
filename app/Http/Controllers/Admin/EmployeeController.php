@@ -11,6 +11,8 @@ use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class EmployeeController extends Controller
 {
@@ -28,11 +30,18 @@ class EmployeeController extends Controller
 
     public function store(EmployeeRequest $request)
     {
-        $data = $request->validated();
-        $data['added_by'] = Auth::user()->id;
-        $employee = Employee::create($data);
-        $employee->services()->sync($request->services);
-        return redirect()->route('admin.employees.index')->with(['success' => 'Employee is created successfully']);
+        try {
+            DB::beginTransaction();
+            $data = $request->validated();
+            $data['added_by'] = Auth::user()->id;
+            $employee = Employee::create($data);
+            $employee->services()->sync($request->services);
+            DB::commit();
+            return redirect()->route('admin.employees.index')->with(['success' => 'Employee is created successfully']);
+        }catch (Throwable){
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Error has been occurred']);
+        }
     }
 
     public function edit($id)
@@ -44,10 +53,17 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, $id)
     {
-        $employee = Employee::findOrFail($id);
-        $employee->update($request->validated());
-        $employee->services()->sync($request->services);
-        return redirect()->route('admin.employees.index')->with(['success' => 'Employee is updated successfully']);
+        try {
+            DB::beginTransaction();
+            $employee = Employee::findOrFail($id);
+            $employee->update($request->validated());
+            $employee->services()->sync($request->services);
+            return redirect()->route('admin.employees.index')->with(['success' => 'Employee is updated successfully']);
+        }catch (Throwable){
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Error has been occurred']);
+        }
+
     }
 
     public function destroy($id)
@@ -70,16 +86,16 @@ class EmployeeController extends Controller
         // Filter out employees who have conflicting reservations at the given time
         $availableEmployees = $employees->filter(function ($employee) use ($request, $startTime) {
             return !ReservationService::where('employee_id', $employee->id)
-                ->when($request->get('reservation_id'), function ($query) use ($request) {
-                    $query->whereNot('reservation_id', $request->get('reservation_id'));
-                })
                 ->whereHas('reservation', function ($query) use ($startTime) {
-                    $query->where('start_datetime', '<=', $startTime)
+                    $query->where('start_datetime', '<', $startTime)
                         ->where('end_datetime', '>', $startTime);
                 })
                 ->exists();
         });
 
-        return response()->json($availableEmployees);
+        return response()->json([
+            'count' => count($availableEmployees),
+            'list' => $availableEmployees
+        ]);
     }
 }

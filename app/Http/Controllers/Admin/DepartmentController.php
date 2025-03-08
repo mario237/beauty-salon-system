@@ -10,6 +10,8 @@ use App\Models\Customer;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class DepartmentController extends Controller
 {
@@ -26,10 +28,17 @@ class DepartmentController extends Controller
 
     public function store(DepartmentRequest $request)
     {
-        $department = $request->validated();
-        $department['added_by'] = Auth::user()->id;
-        Department::create($department);
-        return redirect()->route('admin.departments.index')->with(['success' => 'Department is created successfully']);
+        try {
+            DB::beginTransaction();
+            $department = $request->validated();
+            $department['added_by'] = Auth::user()->id;
+            Department::create($department);
+            DB::commit();
+            return redirect()->route('admin.departments.index')->with(['success' => 'Department is created successfully']);
+        } catch (Throwable $throwable) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Error has been occurred']);
+        }
     }
 
     public function edit($id)
@@ -40,9 +49,16 @@ class DepartmentController extends Controller
 
     public function update(DepartmentRequest $request, $id)
     {
-        $department = Department::findOrFail($id);
-        $department->update($request->validated());
-        return redirect()->route('admin.departments.index')->with(['success' => 'Department is updated successfully']);
+        try {
+            DB::beginTransaction();
+            $department = Department::findOrFail($id);
+            $department->update($request->validated());
+            DB::commit();
+            return redirect()->route('admin.departments.index')->with(['success' => 'Department is updated successfully']);
+        } catch (Throwable $throwable) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Error has been occurred']);
+        }
     }
 
     public function destroy($id)

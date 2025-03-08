@@ -19,4 +19,12 @@
 <!-- App js-->
 <script src="{{asset('assets/js/script.js')}}"></script>
 
+<script>
+    $(window).on("load", function () {
+        setTimeout(function (){
+            $('.overlay').hide();
+        },1000);
+    });
+</script>
+
 @stack('script')

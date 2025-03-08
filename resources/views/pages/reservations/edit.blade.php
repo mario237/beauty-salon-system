@@ -131,12 +131,13 @@
                         type: 'GET',
                         success: function(response) {
                             employeeSelect.empty(); // Clear previous options
+                            let employees = Object.values(response.list); // Convert object to array
 
-                            if (response.length === 0) {
+                            if (response.count === 0) {
                                 employeeSelect.append('<option value="">No employees available</option>');
                             } else {
                                 employeeSelect.append('<option value="">Select Employee</option>');
-                                response.forEach(employee => {
+                                employees.forEach(employee => {
                                     let isSelected = selectedEmployeeId === employee.id ? 'selected' : '';
                                     employeeSelect.append(`<option value="${employee.id}" ${isSelected}>${employee.name}</option>`);
                                 });
