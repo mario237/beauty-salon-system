@@ -33,13 +33,49 @@
                         <h5>Reservation Data</h5>
                     </div>
                     <div class="card-body p-3">
+                        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
+                            Add New Customer
+                        </button>
+                        <!-- Create Customer Modal -->
+                        <div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="createCustomerModalLabel">Create New Customer</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="create-customer-form">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label for="customer-name" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="customer-name" name="name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="customer-phone" class="form-label">Phone Number</label>
+                                                <input type="text" class="form-control" id="customer-phone" name="phone_number" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="customer-source" class="form-label">Source</label>
+                                                <select class="form-control" id="customer-source" name="source">
+                                                    @foreach($sources as $source)
+                                                        <option value="{{ $source }}">{{ Str::headline($source) }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Save</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <form id="reservation-form" action="{{route('admin.reservations.store')}}" method="post">
                             @csrf
                             <div class="form-group mb-4">
                                 <label for="customer_id">Customer</label>
                                 <select id="customer_id" class="form-control select2" name="customer_id">
                                     @foreach ($customers as $customer)
-                                        <option value="{{ $customer->id }}">{{ $customer->name }} - {{ $customer->phone }}</option>
+                                        <option value="{{ $customer->id }}">{{ $customer->name }} - {{ $customer->phone_number }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -249,6 +285,34 @@
                         });
                     }
                 });
+            });
+        });
+
+        $('#create-customer-form').on('submit', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{ route('admin.customers.store') }}",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Customer added successfully!'
+                    }).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function (xhr) {
+                    let errors = xhr.responseJSON?.errors || { error: ['Something went wrong!'] };
+                    let errorMessages = Object.values(errors).flat().join('<br>');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        html: errorMessages
+                    });
+                }
             });
         });
 
