@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\CustomerSource;
+use App\Models\Setting;
 
 if (!function_exists('customerSourceBadge')) {
     function customerSourceBadge(string $source): string
@@ -33,5 +34,13 @@ if (!function_exists('getPaymentMethods')) {
                 'text' => 'InstaPay',
             ],
         ];
+    }
+}
+
+if (!function_exists('getSetting')) {
+    function getSetting(string $key)
+    {
+        return Setting::where('key', $key)->first() ?
+            Setting::where('key', $key)->first()->value : null;
     }
 }
