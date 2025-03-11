@@ -22,9 +22,12 @@ class DatabaseSeeder extends Seeder
            'email' => 'admin@example.com',
            'password' => bcrypt('123456789'),
        ]);
+       Customer::factory(20)->create();
 
        $this->call([
-           SettingSeeder::class
+           SettingSeeder::class,
+           DepartmentsSeeder::class,
        ]);
+
     }
 }
