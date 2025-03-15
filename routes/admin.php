@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -30,5 +31,7 @@ Route::group(['middleware' => ['web']], function (){
         Route::resource('reservations', ReservationController::class);
         Route::resource('transactions', TransactionController::class);
         Route::resource('categories', CategoryController::class);
+        Route::delete('products/images/{id}/delete', [ProductController::class, 'removeImage']);
+        Route::resource('products', ProductController::class);
     });
 });

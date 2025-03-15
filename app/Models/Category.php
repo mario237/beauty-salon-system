@@ -12,4 +12,10 @@ class Category extends Model
     {
         return $this->belongsTo(User::class, 'added_by', 'id');
     }
+
+    public function scopeIsActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
 }

@@ -23,7 +23,8 @@
                     <li class="{{ request()->routeIs('admin.services.*') ? 'active' : ''}}"><a href="{{ route('admin.services.index') }}">Services</a></li>
                     <li class="{{ request()->routeIs('admin.employees.*') ? 'active' : ''}}"><a href="{{ route('admin.employees.index') }}">Employees</a></li>
                     <li class="{{ request()->routeIs('admin.reservations.*') ? 'active' : ''}}"><a href="{{ route('admin.reservations.index') }}">Reservations</a></li>
-                    <li class="{{ request()->routeIs('admin.reservations.*') ? 'active' : ''}}"><a href="{{ route('admin.categories.index') }}">Categories</a></li>
+                    <li class="{{ request()->routeIs('admin.categories.*') ? 'active' : ''}}"><a href="{{ route('admin.categories.index') }}">Categories</a></li>
+                    <li class="{{ request()->routeIs('admin.products.*') ? 'active' : ''}}"><a href="{{ route('admin.products.index') }}">Products</a></li>
                 </ul>
             </li>
         </ul>
