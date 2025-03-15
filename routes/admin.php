@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\EmployeeController;
@@ -28,5 +29,6 @@ Route::group(['middleware' => ['web']], function (){
             ->name('reservations.updateStatus');
         Route::resource('reservations', ReservationController::class);
         Route::resource('transactions', TransactionController::class);
+        Route::resource('categories', CategoryController::class);
     });
 });
