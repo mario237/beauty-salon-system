@@ -43,6 +43,8 @@ class CustomerController extends Controller
 
     public function show($id)
     {
+        $customer = Customer::with('addedBy')->findOrFail($id);
+        return view('pages.customers.show', compact('customer'));
     }
 
     public function edit($id)
