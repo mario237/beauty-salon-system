@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->enum('discount_type', ['flat', 'percentage'])->default('flat');
             $table->decimal('total_price', 10, 2);
             $table->enum('payment_method', ['cash', 'credit_card', 'bank_transfer']);
-            $table->enum('payment_status', ['paid', 'pending', 'partial'])->default('pending');
             $table->text('notes')->nullable();
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();

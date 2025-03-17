@@ -68,7 +68,6 @@ class OrderController extends Controller
                 'discount_type' => $request->discount_type ?? 'flat',
                 'total_price' => $total,
                 'payment_method' => $request->payment_method,
-                'payment_status' => $request->payment_status,
                 'notes' => $request->notes,
                 'status' => 'pending'
             ]);
@@ -163,7 +162,6 @@ class OrderController extends Controller
                 'discount_type' => $request->discount_type ?? 'flat',
                 'total_price' => $total,
                 'payment_method' => $request->payment_method,
-                'payment_status' => $request->payment_status,
                 'notes' => $request->notes,
                 'status' => $order->status // Keep the existing status or update if needed
             ]);
