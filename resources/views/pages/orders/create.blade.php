@@ -287,14 +287,14 @@
                 $('#total-amount').text('$' + total.toFixed(2));
             }
 
-            // Form submission for updating order
+            // Form submission for Creating order
             $('#order-form').on('submit', function (e) {
                 e.preventDefault();
 
                 let form = $(this);
                 let submitButton = form.find('button[type="submit"]');
 
-                submitButton.prop('disabled', true).text('Updating...');
+                submitButton.prop('disabled', true).text('Creating...');
 
                 let products = [];
                 let validForm = true;
@@ -349,7 +349,7 @@
 
                 $.ajax({
                     url: form.attr('action'),
-                    type: "PUT",
+                    type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
                     success: function (response) {
@@ -369,8 +369,8 @@
                         });
                     },
                     error: function (xhr) {
-                        console.log(xhr)
-                        Swal.fire("Error", xhr.message, "error");
+                        let error = xhr.responseJSON?.message || 'Something went wrong!';
+                        Swal.fire("Error", error, "error");
                         submitButton.prop('disabled', false).text('Create Order');
                     }
                 });

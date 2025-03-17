@@ -362,7 +362,7 @@
 
                         Swal.fire({
                             title: "Success!",
-                            text: "Order updated successfully.",
+                            text: response.message,
                             icon: "success",
                             confirmButtonText: "View Order",
                         }).then((result) => {
@@ -374,7 +374,10 @@
                         });
                     },
                     error: function (xhr) {
-                        Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                        let error = xhr.responseJSON?.message || 'Something went wrong!';
+
+                        Swal.fire("Error", error, "error");
+
                         submitButton.prop('disabled', false).text('Update Order');
                     }
                 });
