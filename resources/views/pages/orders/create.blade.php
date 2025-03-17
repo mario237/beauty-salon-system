@@ -353,11 +353,11 @@
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
                     success: function (response) {
-                        submitButton.prop('disabled', false).text('Update Order');
+                        submitButton.prop('disabled', false).text('Create Order');
 
                         Swal.fire({
                             title: "Success!",
-                            text: "Order updated successfully.",
+                            text: response.message,
                             icon: "success",
                             confirmButtonText: "View Order",
                         }).then((result) => {
@@ -369,8 +369,9 @@
                         });
                     },
                     error: function (xhr) {
-                        Swal.fire("Error", "Something went wrong. Please try again.", "error");
-                        submitButton.prop('disabled', false).text('Update Order');
+                        console.log(xhr)
+                        Swal.fire("Error", xhr.message, "error");
+                        submitButton.prop('disabled', false).text('Create Order');
                     }
                 });
             });
