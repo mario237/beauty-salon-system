@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}" dir="{{ LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <title>@yield('title') | {{ config('app.name') }}</title>
@@ -12,7 +12,7 @@
     <!-- css end-->
 </head>
 
-<body>
+<body class="{{ LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : '' }}">
 <!-- Loader start-->
 <div class="app-wrapper">
     <div class="overlay">

@@ -13,27 +13,29 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['web']], function (){
-    Route::get('login', [LoginController::class, 'showLogin'])->name('show-login')->middleware('guest');
-    Route::post('login', [LoginController::class, 'doLogin'])->name('do-login');
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+// Since localization is now applied in bootstrap/app.php,
+// we don't need to wrap these routes in a localization group
 
-    Route::group(['middleware' => ['auth']], function (){
-        Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
-        Route::resource('customers', CustomerController::class);
-        Route::resource('departments', DepartmentController::class);
-        Route::resource('services', ServiceController::class);
-        Route::resource('employees', EmployeeController::class);
-        Route::get('employees-by-service/{service}', [EmployeeController::class, 'getAvailableEmployees'])
-            ->name('employees.by.service');
-        Route::get('reservation-employee/{reservationId}/{serviceId}', [ReservationController::class, 'getEmployeeForService']);
-        Route::post('reservations/update-status', [ReservationController::class, 'updateStatus'])
-            ->name('reservations.updateStatus');
-        Route::resource('reservations', ReservationController::class);
-        Route::resource('transactions', TransactionController::class);
-        Route::resource('categories', CategoryController::class);
-        Route::delete('products/images/{id}/delete', [ProductController::class, 'removeImage']);
-        Route::resource('products', ProductController::class);
-        Route::resource('orders', OrderController::class);
-    });
+Route::get('login', [LoginController::class, 'showLogin'])->name('show-login')->middleware('guest');
+Route::post('login', [LoginController::class, 'doLogin'])->name('do-login');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::resource('customers', CustomerController::class);
+    Route::resource('departments', DepartmentController::class);
+    Route::resource('services', ServiceController::class);
+    Route::resource('employees', EmployeeController::class);
+    Route::get('employees-by-service/{service}', [EmployeeController::class, 'getAvailableEmployees'])
+        ->name('employees.by.service');
+    Route::get('reservation-employee/{reservationId}/{serviceId}', [ReservationController::class, 'getEmployeeForService']);
+    Route::post('reservations/update-status', [ReservationController::class, 'updateStatus'])
+        ->name('reservations.updateStatus');
+    Route::resource('reservations', ReservationController::class);
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::delete('products/images/{id}/delete', [ProductController::class, 'removeImage']);
+    Route::resource('products', ProductController::class);
+    Route::resource('orders', OrderController::class);
 });

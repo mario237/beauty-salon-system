@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Categories')
+@section('title', __('general.categories'))
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/toastify/toastify.css')}}">
@@ -9,17 +9,17 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12 ">
-                <h4 class="main-title">Categories</h4>
+                <h4 class="main-title">{{ __('general.categories') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li class="">
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
                       <span>
-                        <i class="ph-duotone  ph-table f-s-16"></i> Dashboard
+                        <i class="ph-duotone  ph-table f-s-16"></i> {{ __('general.dashboard') }}
                       </span>
                         </a>
                     </li>
                     <li class="active">
-                        <a href="{{ route('admin.categories.index') }}" class="f-s-14 f-w-500">Categories</a>
+                        <a href="{{ route('admin.categories.index') }}" class="f-s-14 f-w-500">{{ __('general.categories') }}</a>
                     </li>
                 </ul>
             </div>
@@ -29,19 +29,18 @@
             <div class="col-12">
                 <div class="card ">
                     <div class="card-header">
-                        <a class="btn btn-primary btn-md" href="{{ route('admin.categories.create') }}">Add
-                            Category</a>
+                        <a class="btn btn-primary btn-md" href="{{ route('admin.categories.create') }}">{{ __('general.add_category') }}</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="app-datatable-default overflow-auto">
                             <table id="example" class="display app-data-table default-data-table">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Added By</th>
-                                    <th>Added At</th>
-                                    <th>Action</th>
+                                    <th>{{ __('general.name') }}</th>
+                                    <th>{{ __('general.status') }}</th>
+                                    <th>{{ __('general.added_by') }}</th>
+                                    <th>{{ __('general.added_at') }}</th>
+                                    <th>{{ __('general.actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -50,9 +49,9 @@
                                         <td>{{ $category->name }}</td>
                                         <td>
                                             @if($category->is_active)
-                                                <span class="badge text-success">Active</span>
+                                                <span class="badge text-success">{{ __('general.active') }}</span>
                                             @else
-                                                <span class="badge text-danger">Inactive</span>
+                                                <span class="badge text-danger">{{ __('general.inactive') }}</span>
                                             @endif
                                         </td>
 
@@ -112,13 +111,13 @@
             url = url.replace(':id', id);
             let message = '';
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "{{ __('general.are_you_sure') }}",
+                text: "{{ __('general.wont_revert') }}",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "{{ __('general.yes') }}, {{ __('general.delete') }}!",
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return fetch(url, {
@@ -144,7 +143,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: "Successfully",
+                        title: "{{ __('general.successfully') }}",
                         text: message,
                         icon: "success"
                     }).then((result) => {
