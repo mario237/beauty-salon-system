@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Order Details')
+@section('title', __('general.order_details'))
 
 @push('css')
     <style>
@@ -47,11 +47,11 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Orders</h4>
+                <h4 class="main-title">{{ __('general.orders') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
-                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.orders.index') }}">Orders</a></li>
-                    <li class="active">Order Details</li>
+                    <li><a href="{{ route('admin.dashboard') }}">{{ __('general.dashboard') }}</a></li>
+                    <li><a href="{{ route('admin.orders.index') }}">{{ __('general.orders') }}</a></li>
+                    <li class="active">{{ __('general.order_details') }}</li>
                 </ul>
             </div>
         </div>
@@ -59,18 +59,18 @@
         <div class="row mb-3">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Order #{{ $order->order_number }}</h5>
+                    <h5 class="mb-0">{{ __('general.order_number') }} #{{ $order->order_number }}</h5>
                     <div>
                         <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-primary me-2">
-                            <i class="ti ti-edit"></i> Edit Order
+                            <i class="ti ti-edit"></i> {{ __('general.edit_order') }}
                         </a>
                         <div class="btn-group">
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="ti ti-dots-vertical"></i> Actions
+                                <i class="ti ti-dots-vertical"></i> {{ __('general.actions') }}
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item print-order" href="javascript:void(0)">
-                                        <i class="ti ti-printer"></i> Print Order
+                                        <i class="ti ti-printer"></i> {{ __('general.print_order') }}
                                     </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
@@ -78,7 +78,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="dropdown-item text-danger">
-                                            <i class="ti ti-trash"></i> Delete Order
+                                            <i class="ti ti-trash"></i> {{ __('general.delete_order') }}
                                         </button>
                                     </form>
                                 </li>
@@ -94,7 +94,7 @@
                 <!-- Order Products -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Order Items</h5>
+                        <h5 class="card-title mb-0">{{ __('general.order_items') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -102,11 +102,11 @@
                                 <thead>
                                 <tr>
                                     <th width="50">#</th>
-                                    <th>Product</th>
-                                    <th class="text-center">Price</th>
-                                    <th class="text-center">Quantity</th>
-                                    <th class="text-center">Discount</th>
-                                    <th class="text-end">Total</th>
+                                    <th>{{ __('general.product') }}</th>
+                                    <th class="text-center">{{ __('general.price') }}</th>
+                                    <th class="text-center">{{ __('general.quantity') }}</th>
+                                    <th class="text-center">{{ __('general.discount') }}</th>
+                                    <th class="text-end">{{ __('general.total') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -119,7 +119,7 @@
                                                     <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" class="me-2" style="width: 40px; height: 40px; object-fit: cover;">
                                                 @endif
                                                 <div>
-                                                    <strong>{{ $item->product ? $item->product->name : 'Unknown Product' }}</strong>
+                                                    <strong>{{ $item->product ? $item->product->name : __('general.unknown_product') }}</strong>
                                                     @if($item->product && $item->product->sku)
                                                         <div class="small text-muted">SKU: {{ $item->product->sku }}</div>
                                                     @endif
@@ -145,11 +145,11 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="5" class="text-end"><strong>Subtotal:</strong></td>
+                                    <td colspan="5" class="text-end"><strong>{{ __('general.subtotal') }}:</strong></td>
                                     <td class="text-end">${{ number_format($order->subtotal, 2) }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5" class="text-end"><strong>Order Discount:</strong></td>
+                                    <td colspan="5" class="text-end"><strong>{{ __('general.order_discount') }}:</strong></td>
                                     <td class="text-end">
                                         @if($order->discount > 0)
                                             @if($order->discount_type == 'percentage')
@@ -163,7 +163,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5" class="text-end"><strong>Total:</strong></td>
+                                    <td colspan="5" class="text-end"><strong>{{ __('general.total') }}:</strong></td>
                                     <td class="text-end"><strong>${{ number_format($order->total_price, 2) }}</strong></td>
                                 </tr>
                                 </tfoot>
@@ -176,7 +176,7 @@
                 @if($order->notes)
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Order Notes</h5>
+                            <h5 class="card-title mb-0">{{ __('general.order_notes') }}</h5>
                         </div>
                         <div class="card-body">
                             {{ $order->notes }}
@@ -189,22 +189,22 @@
                 <!-- Order Details -->
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Order Information</h5>
+                        <h5 class="card-title mb-0">{{ __('general.order_information') }}</h5>
                     </div>
                     <div class="card-body">
                         <table class="table table-borderless">
 
                             <tr>
-                                <th>Payment Method:</th>
+                                <th>{{ __('general.payment_method') }}:</th>
                                 <td>{{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}</td>
                             </tr>
                             <tr>
-                                <th>Order Date:</th>
+                                <th>{{ __('general.order_date') }}:</th>
                                 <td>{{ $order->created_at->format('M d, Y h:i A') }}</td>
                             </tr>
                             @if($order->updated_at->ne($order->created_at))
                                 <tr>
-                                    <th>Last Updated:</th>
+                                    <th>{{ __('general.last_updated') }}:</th>
                                     <td>{{ $order->updated_at->format('M d, Y h:i A') }}</td>
                                 </tr>
                             @endif
@@ -215,9 +215,9 @@
                 <!-- Customer Information -->
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title mb-0">Customer Information</h5>
+                        <h5 class="card-title mb-0">{{ __('general.customer_information') }}</h5>
                         @if($order->customer)
-                            <a href="{{ route('admin.customers.show', $order->customer->id) }}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                            <a href="{{ route('admin.customers.show', $order->customer->id) }}" class="btn btn-sm btn-outline-primary">{{ __('general.view_profile') }}</a>
                         @endif
                     </div>
                     <div class="card-body">
@@ -232,7 +232,7 @@
                                 @endif
                                 <div>
                                     <h5 class="mb-0">{{ $order->customer->name }}</h5>
-                                    <p class="text-muted mb-0">Customer since {{ $order->customer->created_at->format('M Y') }}</p>
+                                    <p class="text-muted mb-0">{{ __('general.customer_since') }} {{ $order->customer->created_at->format('M Y') }}</p>
                                 </div>
                             </div>
                             <hr>
@@ -250,7 +250,7 @@
                         @else
                             <div class="text-center py-3">
                                 <i class="ti ti-user-off fs-1 text-muted"></i>
-                                <p class="mt-2">Customer information not available</p>
+                                <p class="mt-2">{{ __('general.customer_info_not_available') }}</p>
                             </div>
                         @endif
                     </div>
@@ -270,14 +270,14 @@
                 let form = this;
 
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This order will be deleted permanently!",
+                    title: "{{ __('general.are_you_sure') }}",
+                    text: "{{ __('general.order_delete_permanent') }}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel'
+                    confirmButtonText: "{{ __('general.yes_delete') }}",
+                    cancelButtonText: "{{ __('general.cancel') }}"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();

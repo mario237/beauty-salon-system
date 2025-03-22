@@ -29,7 +29,7 @@ class TransactionController extends Controller
             $reservation = Reservation::findOrFail($request->reservation_id);
 
             if ($reservation->status !== 'confirmed') {
-                return response()->json(['message' => 'Reservation is not confirmed!'], 400);
+                return response()->json(['message' => trans('general.reservation_is_not_confirmed')], 400);
             }
 
 
@@ -44,10 +44,10 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'Payment successful!', 'transaction' => $transaction]);
+            return response()->json(['message' => trans('general.payment_successful'), 'transaction' => $transaction]);
         } catch (Throwable $throwable) {
             DB::rollBack();
-            return response()->json(['message' => 'Error has been occurred']);
+            return response()->json(['message' => trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.transaction')])]);
         }
     }
 

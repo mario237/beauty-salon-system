@@ -87,10 +87,10 @@ class ReservationController extends Controller
             $reservation->update(['total_price' => $totalPrice]);
 
             DB::commit();
-            return response()->json(['message' => 'Reservation added successfully!'], 200);
+            return response()->json(['message' => trans('general.reservation_added_success')], 200);
         } catch (Throwable) {
             DB::rollback();
-            return response()->json(['message' => 'Error has been occurred']);
+            return response()->json(['message' => trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.reservation')])]);
         }
     }
 
@@ -156,10 +156,10 @@ class ReservationController extends Controller
 
             $reservation->update(['total_price' => $totalPrice]);
             DB::commit();
-            return response()->json(['message' => 'Reservation updated successfully!'], 200);
+            return response()->json(['message' => trans('general.reservation_updated_success')], 200);
         } catch (Throwable) {
             DB::rollback();
-            return response()->json(['message' => 'Error has been occurred']);
+            return response()->json(['message' => trans('general.error_occurred_while_action_on_model', ['action' => trans('general.update'), 'model' => trans('general.reservation')])]);
         }
     }
 
@@ -169,9 +169,10 @@ class ReservationController extends Controller
         Reservation::find($id)->delete();
         return response()->json([
             'success' => 'true',
-            'message' => 'Reservation is deleted successfully'
+            'message' => trans('general.model_is_deleted_successfully', ['model' => trans('general.reservation')])
         ]);
     }
+
     public function getEmployeeForService($reservationId, $serviceId)
     {
         $employee = ReservationService::where([
@@ -181,6 +182,7 @@ class ReservationController extends Controller
 
         return response()->json($employee);
     }
+
     public function updateStatus(ReservationStatusRequest $request)
     {
         $reservation = Reservation::findOrFail($request->validated('id'));
@@ -191,7 +193,7 @@ class ReservationController extends Controller
         $reservation->save();
 
         return response()->json([
-            'message' => 'Reservation status updated successfully.'
+            'message' => trans('general.model_is_modified_successfully', ['model' => trans('general.reservation')])
         ]);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Products')
+@section('title', __('general.products'))
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/toastify/toastify.css')}}">
@@ -9,17 +9,17 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12 ">
-                <h4 class="main-title">Products</h4>
+                <h4 class="main-title">{{ __('general.products') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li class="">
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
                       <span>
-                        <i class="ph-duotone  ph-table f-s-16"></i> Dashboard
+                        <i class="ph-duotone  ph-table f-s-16"></i> {{ __('general.dashboard') }}
                       </span>
                         </a>
                     </li>
                     <li class="active">
-                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">Products</a>
+                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">{{ __('general.products') }}</a>
                     </li>
                 </ul>
             </div>
@@ -29,19 +29,19 @@
             <div class="col-12">
                 <div class="card ">
                     <div class="card-header">
-                        <a class="btn btn-primary btn-md" href="{{ route('admin.products.create') }}">Add Product</a>
+                        <a class="btn btn-primary btn-md" href="{{ route('admin.products.create') }}">{{ __('general.add_product') }}</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="app-datatable-default overflow-auto">
                             <table id="example" class="display app-data-table default-data-table">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Added By</th>
-                                    <th>Added At</th>
-                                    <th>Action</th>
+                                    <th>{{ __('general.name') }}</th>
+                                    <th>{{ __('general.price') }}</th>
+                                    <th>{{ __('general.stock') }}</th>
+                                    <th>{{ __('general.added_by') }}</th>
+                                    <th>{{ __('general.added_at') }}</th>
+                                    <th>{{ __('general.action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -108,13 +108,14 @@
             url = url.replace(':id', id);
             let message = '';
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "{{ __('general.are_you_sure') }}",
+                text: "{{ __('general.wont_revert') }}",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "{{ __('general.yes_delete') }}",
+                cancelButtonText: "{{ __('general.cancel') }}",
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return fetch(url, {
@@ -132,7 +133,7 @@
                         message = data.message;
                     }).catch(error => {
                         Swal.showValidationMessage(
-                            `Request failed: ${error}`
+                            `{{ __('general.request_failed') }}: ${error}`
                         )
                     })
                 },
@@ -140,7 +141,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: "Successfully",
+                        title: "{{ __('general.successfully') }}",
                         text: message,
                         icon: "success"
                     }).then((result) => {

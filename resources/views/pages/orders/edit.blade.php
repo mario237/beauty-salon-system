@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Order')
+@section('title', __('general.edit_order'))
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/select/select2.min.css') }}">
@@ -9,11 +9,11 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Orders</h4>
+                <h4 class="main-title">{{ __('general.orders') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
-                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.orders.index') }}">Orders</a></li>
-                    <li class="active">Edit Order</li>
+                    <li><a href="{{ route('admin.dashboard') }}">{{ __('general.dashboard') }}</a></li>
+                    <li><a href="{{ route('admin.orders.index') }}">{{ __('general.orders') }}</a></li>
+                    <li class="active">{{ __('general.edit_order') }}</li>
                 </ul>
             </div>
         </div>
@@ -21,16 +21,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header"><h5>Order Details</h5></div>
+                    <div class="card-header"><h5>{{ __('general.order_details') }}</h5></div>
                     <div class="card-body">
                         <form id="order-form" action="{{ route('admin.orders.update', $order->id) }}" method="post">
                             @csrf
                             @method('PUT')
 
                             <div class="form-group mb-4">
-                                <label for="customer_id">Customer</label>
+                                <label for="customer_id">{{ __('general.customer') }}</label>
                                 <select id="customer_id" class="form-control select2" name="customer_id" required>
-                                    <option value="" disabled>Select a customer</option>
+                                    <option value="" disabled>{{ __('general.select_customer') }}</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}" {{ $order->customer_id == $customer->id ? 'selected' : '' }}>{{ $customer->name }} - {{ $customer->phone_number }}</option>
                                     @endforeach
@@ -46,31 +46,31 @@
                                         <div class="w-100">
                                             <div class="row my-3">
                                                 <div class="col-md-4">
-                                                    <label class="form-label">Product</label>
+                                                    <label class="form-label">{{ __('general.product') }}</label>
                                                     <select class="form-control select2 product-select" name="products[]" required>
-                                                        <option value="" disabled>Select a product</option>
+                                                        <option value="" disabled>{{ __('general.select_product') }}</option>
                                                         @foreach ($products as $prod)
                                                             <option value="{{ $prod->id }}" data-price="{{ $prod->price }}" {{ $product->id == $prod->id ? 'selected' : '' }}>{{ $prod->name }} - ${{ number_format($prod->price, 2) }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Quantity</label>
+                                                    <label class="form-label">{{ __('general.quantity') }}</label>
                                                     <input type="number" class="form-control quantity-input" name="quantities[]" min="1" value="{{ $product->pivot->quantity }}" required>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Price</label>
+                                                    <label class="form-label">{{ __('general.price') }}</label>
                                                     <input type="number" class="form-control price-input" name="prices[]" step="0.01" value="{{ $product->pivot->price }}" required readonly>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Discount</label>
+                                                    <label class="form-label">{{ __('general.discount') }}</label>
                                                     <input type="number" class="form-control" name="product_discounts[]" step="0.01" value="{{ $product->pivot->discount }}">
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Discount Type</label>
+                                                    <label class="form-label">{{ __('general.discount_type') }}</label>
                                                     <select class="form-control" name="product_discount_type[]">
-                                                        <option value="percentage" {{ $product->pivot->discount_type == 'percentage' ? 'selected' : '' }}>Percentage</option>
-                                                        <option value="flat" {{ $product->pivot->discount_type == 'flat' ? 'selected' : '' }}>Flat</option>
+                                                        <option value="percentage" {{ $product->pivot->discount_type == 'percentage' ? 'selected' : '' }}>{{ __('general.percentage') }}</option>
+                                                        <option value="flat" {{ $product->pivot->discount_type == 'flat' ? 'selected' : '' }}>{{ __('general.flat') }}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -81,36 +81,36 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <button type="button" id="add-product" class="btn btn-secondary mt-2">Add More Products</button>
+                            <button type="button" id="add-product" class="btn btn-secondary mt-2">{{ __('general.add_more_products') }}</button>
 
                             <div class="row my-4">
                                 <div class="col-md-6">
-                                    <label class="form-label">Order Discount</label>
+                                    <label class="form-label">{{ __('general.order_discount') }}</label>
                                     <input type="number" class="form-control" name="order_discount" step="0.01" value="{{ $order->discount }}">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Discount Type</label>
+                                    <label class="form-label">{{ __('general.discount_type') }}</label>
                                     <select class="form-control" name="order_discount_type">
-                                        <option value="percentage" {{ $order->discount_type == 'percentage' ? 'selected' : '' }}>Percentage</option>
-                                        <option value="flat" {{ $order->discount_type == 'flat' ? 'selected' : '' }}>Flat</option>
+                                        <option value="percentage" {{ $order->discount_type == 'percentage' ? 'selected' : '' }}>{{ __('general.percentage') }}</option>
+                                        <option value="flat" {{ $order->discount_type == 'flat' ? 'selected' : '' }}>{{ __('general.flat') }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <label for="payment_method">Payment Method</label>
+                                    <label for="payment_method">{{ __('general.payment_method') }}</label>
                                     <select id="payment_method" class="form-control" name="payment_method">
-                                        <option value="cash" {{ $order->payment_method == 'cash' ? 'selected' : '' }}>Cash</option>
-                                        <option value="credit_card" {{ $order->payment_method == 'credit_card' ? 'selected' : '' }}>Credit Card</option>
-                                        <option value="bank_transfer" {{ $order->payment_method == 'bank_transfer' ? 'selected' : '' }}>Bank Transfer</option>
+                                        <option value="cash" {{ $order->payment_method == 'cash' ? 'selected' : '' }}>{{ __('general.cash') }}</option>
+                                        <option value="credit_card" {{ $order->payment_method == 'credit_card' ? 'selected' : '' }}>{{ __('general.credit_card') }}</option>
+                                        <option value="bank_transfer" {{ $order->payment_method == 'bank_transfer' ? 'selected' : '' }}>{{ __('general.bank_transfer') }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-12">
-                                    <label for="notes">Order Notes</label>
+                                    <label for="notes">{{ __('general.order_notes') }}</label>
                                     <textarea id="notes" class="form-control" name="notes" rows="3">{{ $order->notes }}</textarea>
                                 </div>
                             </div>
@@ -119,22 +119,22 @@
                                 <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header bg-light">
-                                            <h5>Order Summary</h5>
+                                            <h5>{{ __('general.order_summary') }}</h5>
                                         </div>
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <tbody>
                                                     <tr>
-                                                        <td>Subtotal:</td>
+                                                        <td>{{ __('general.subtotal') }}:</td>
                                                         <td class="text-end" id="subtotal">$0.00</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Order Discount:</td>
+                                                        <td>{{ __('general.order_discount') }}:</td>
                                                         <td class="text-end" id="order-discount-amount">$0.00</td>
                                                     </tr>
                                                     <tr>
-                                                        <td><strong>Total:</strong></td>
+                                                        <td><strong>{{ __('general.total') }}:</strong></td>
                                                         <td class="text-end"><strong id="total-amount">$0.00</strong></td>
                                                     </tr>
                                                     </tbody>
@@ -146,8 +146,8 @@
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <a class="btn btn-secondary" href="{{ route('admin.orders.index') }}">Back</a>
-                                <button class="btn btn-primary" type="submit">Update Order</button>
+                                <a class="btn btn-secondary" href="{{ route('admin.orders.index') }}">{{ __('general.back') }}</a>
+                                <button class="btn btn-primary" type="submit">{{ __('general.update_order') }}</button>
                             </div>
                         </form>
                     </div>
@@ -204,31 +204,31 @@
                         <div class="w-100">
                             <div class="row my-3">
                                 <div class="col-md-4">
-                                    <label class="form-label">Product</label>
+                                    <label class="form-label">{{ __('general.product') }}</label>
                                     <select class="form-control select2 product-select" name="products[]" required>
-                                        <option value="" disabled selected>Select a product</option>
+                                        <option value="" disabled selected>{{ __('general.select_product') }}</option>
                                         @foreach ($products as $product)
                 <option value="{{ $product->id }}" data-price="{{ $product->price }}">{{ $product->name }} - ${{ number_format($product->price, 2) }}</option>
                                         @endforeach
                 </select>
             </div>
             <div class="col-md-2">
-                <label class="form-label">Quantity</label>
+                <label class="form-label">{{ __('general.quantity') }}</label>
                 <input type="number" class="form-control quantity-input" name="quantities[]" min="1" value="1" required>
             </div>
             <div class="col-md-2">
-                <label class="form-label">Price</label>
+                <label class="form-label">{{ __('general.price') }}</label>
                 <input type="number" class="form-control price-input" name="prices[]" step="0.01" value="0" required readonly>
             </div>
             <div class="col-md-2">
-                <label class="form-label">Discount</label>
+                <label class="form-label">{{ __('general.discount') }}</label>
                 <input type="number" class="form-control" name="product_discounts[]" step="0.01" value="0">
             </div>
             <div class="col-md-2">
-                <label class="form-label">Discount Type</label>
+                <label class="form-label">{{ __('general.discount_type') }}</label>
                 <select class="form-control" name="product_discount_type[]">
-                    <option value="percentage">Percentage</option>
-                    <option value="flat">Flat</option>
+                    <option value="percentage">{{ __('general.percentage') }}</option>
+                    <option value="flat">{{ __('general.flat') }}</option>
                 </select>
             </div>
         </div>
@@ -246,7 +246,7 @@
                     $(this).closest('.product-group').remove();
                     updateOrderSummary();
                 } else {
-                    Swal.fire('Error', 'At least one product is required.', 'error');
+                    Swal.fire("{{ __('general.error') }}", "{{ __('general.at_least_one_product_required') }}", 'error');
                 }
             });
 
@@ -299,7 +299,7 @@
                 let form = $(this);
                 let submitButton = form.find('button[type="submit"]');
 
-                submitButton.prop('disabled', true).text('Updating...');
+                submitButton.prop('disabled', true).text("{{ __('general.updating') }}");
 
                 let products = [];
                 let validForm = true;
@@ -310,22 +310,22 @@
                     let price = $(this).find('.price-input').val();
 
                     if (!productId) {
-                        Swal.fire('Error', 'Please select a product.', 'error');
-                        submitButton.prop('disabled', false).text('Update Order');
+                        Swal.fire("{{ __('general.error') }}", "{{ __('general.please_select_product') }}", 'error');
+                        submitButton.prop('disabled', false).text("{{ __('general.update_order') }}");
                         validForm = false;
                         return false;
                     }
 
                     if (!quantity || quantity < 1) {
-                        Swal.fire('Error', 'Please enter a valid quantity for all products.', 'error');
-                        submitButton.prop('disabled', false).text('Update Order');
+                        Swal.fire("{{ __('general.error') }}", "{{ __('general.please_enter_valid_quantity') }}", 'error');
+                        submitButton.prop('disabled', false).text("{{ __('general.update_order') }}");
                         validForm = false;
                         return false;
                     }
 
                     if (!price || price <= 0) {
-                        Swal.fire('Error', 'Please check the price for all products.', 'error');
-                        submitButton.prop('disabled', false).text('Update Order');
+                        Swal.fire("{{ __('general.error') }}", "{{ __('general.please_check_price') }}", 'error');
+                        submitButton.prop('disabled', false).text("{{ __('general.update_order') }}");
                         validForm = false;
                         return false;
                     }
@@ -358,13 +358,13 @@
                     contentType: "application/json",
                     data: JSON.stringify(requestData),
                     success: function (response) {
-                        submitButton.prop('disabled', false).text('Update Order');
+                        submitButton.prop('disabled', false).text("{{ __('general.update_order') }}");
 
                         Swal.fire({
-                            title: "Success!",
+                            title: "{{ __('general.success') }}!",
                             text: response.message,
                             icon: "success",
-                            confirmButtonText: "View Order",
+                            confirmButtonText: "{{ __('general.view_order') }}",
                         }).then((result) => {
                             if (result.isConfirmed && response.redirect) {
                                 window.location.href = response.redirect;
@@ -374,11 +374,11 @@
                         });
                     },
                     error: function (xhr) {
-                        let error = xhr.responseJSON?.message || 'Something went wrong!';
+                        let error = xhr.responseJSON?.message || "{{ __('general.something_went_wrong') }}";
 
-                        Swal.fire("Error", error, "error");
+                        Swal.fire("{{ __('general.error') }}", error, "error");
 
-                        submitButton.prop('disabled', false).text('Update Order');
+                        submitButton.prop('disabled', false).text("{{ __('general.update_order') }}");
                     }
                 });
             });

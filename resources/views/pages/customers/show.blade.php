@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Customer Details')
+@section('title', __('general.customer_details'))
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select/select2.min.css')}}">
@@ -56,17 +56,17 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Customer Details</h4>
+                <h4 class="main-title">{{ __('general.customer_details') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li class="">
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
                             <span>
-                                <i class="ph-duotone ph-table f-s-16"></i> Dashboard
+                                <i class="ph-duotone ph-table f-s-16"></i> {{ __('general.dashboard') }}
                             </span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="{{ route('admin.customers.index') }}" class="f-s-14 f-w-500">Customers</a>
+                        <a href="{{ route('admin.customers.index') }}" class="f-s-14 f-w-500">{{ __('general.customers') }}</a>
                     </li>
                     <li class="active">
                         <a href="#" class="f-s-14 f-w-500">{{ $customer->name }}</a>
@@ -87,15 +87,15 @@
                             <div>
                                 <h3 class="mb-1">{{ $customer->name }}</h3>
                                 <p class="text-muted mb-0">
-                                    <i class="ph-duotone ph-user-circle me-1"></i> Customer #{{ $customer->id }}
+                                    <i class="ph-duotone ph-user-circle me-1"></i> {{ __('general.customer') }} #{{ $customer->id }}
                                 </p>
                             </div>
                             <div class="ms-auto">
                                 <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-primary action-btn">
-                                    <i class="ph-duotone ph-pencil me-1"></i> Edit
+                                    <i class="ph-duotone ph-pencil me-1"></i> {{ __('general.edit') }}
                                 </a>
                                 <button type="button" class="btn btn-danger action-btn" data-bs-toggle="modal" data-bs-target="#deleteCustomerModal">
-                                    <i class="ph-duotone ph-trash me-1"></i> Delete
+                                    <i class="ph-duotone ph-trash me-1"></i> {{ __('general.delete') }}
                                 </button>
                             </div>
                         </div>
@@ -110,15 +110,15 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 customer-data-card">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="ph-duotone ph-info me-2"></i>Basic Information</h5>
+                        <h5 class="mb-0"><i class="ph-duotone ph-info me-2"></i>{{ __('general.basic_information') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <p class="info-label mb-1">Full Name</p>
+                            <p class="info-label mb-1">{{ __('general.full_name') }}</p>
                             <p class="info-value">{{ $customer->name }}</p>
                         </div>
                         <div class="mb-3">
-                            <p class="info-label mb-1">Phone Number</p>
+                            <p class="info-label mb-1">{{ __('general.phone_number') }}</p>
                             <p class="info-value">
                                 <a href="tel:{{ $customer->phone_number }}" class="text-decoration-none">
                                     <i class="ph-duotone ph-phone me-1"></i> {{ $customer->phone_number }}
@@ -126,7 +126,7 @@
                             </p>
                         </div>
                         <div>
-                            <p class="info-label mb-1">Source</p>
+                            <p class="info-label mb-1">{{ __('general.source') }}</p>
                             <p class="info-value">
                                 <span class="badge bg-primary rounded-pill px-3 py-2">
                                     {{ \Illuminate\Support\Str::headline($customer->source) }}
@@ -141,19 +141,19 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 customer-data-card">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="ph-duotone ph-clock-counter-clockwise me-2"></i>Customer Timeline</h5>
+                        <h5 class="mb-0"><i class="ph-duotone ph-clock-counter-clockwise me-2"></i>{{ __('general.customer_timeline') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <p class="info-label mb-1">Created At</p>
+                            <p class="info-label mb-1">{{ __('general.created_at') }}</p>
                             <p class="info-value">{{ $customer->created_at->format('M d, Y h:i A') }}</p>
                         </div>
                         <div class="mb-3">
-                            <p class="info-label mb-1">Last Updated</p>
+                            <p class="info-label mb-1">{{ __('general.last_updated') }}</p>
                             <p class="info-value">{{ $customer->updated_at->format('M d, Y h:i A') }}</p>
                         </div>
                         <div>
-                            <p class="info-label mb-1">Customer For</p>
+                            <p class="info-label mb-1">{{ __('general.customer_for') }}</p>
                             <p class="info-value">{{ $customer->created_at->diffForHumans(null, true) }}</p>
                         </div>
                     </div>
@@ -164,19 +164,19 @@
             <div class="col-lg-4 col-md-12 mb-4">
                 <div class="card h-100 customer-data-card">
                     <div class="card-header bg-light">
-                        <h5 class="mb-0"><i class="ph-duotone ph-lightning me-2"></i>Quick Actions</h5>
+                        <h5 class="mb-0"><i class="ph-duotone ph-lightning me-2"></i>{{ __('general.quick_actions') }}</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-grid gap-3">
                             <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-outline-primary">
-                                <i class="ph-duotone ph-pencil me-2"></i> Edit Customer
+                                <i class="ph-duotone ph-pencil me-2"></i> {{ __('general.edit_customer') }}
                             </a>
                             <a href="tel:{{ $customer->phone_number }}" class="btn btn-outline-success">
-                                <i class="ph-duotone ph-phone me-2"></i> Call Customer
+                                <i class="ph-duotone ph-phone me-2"></i> {{ __('general.call_customer') }}
                             </a>
                             @if(route('admin.orders.create'))
                                 <a href="{{ route('admin.orders.create', ['customer_id' => $customer->id]) }}" class="btn btn-outline-info">
-                                    <i class="ph-duotone ph-shopping-cart me-2"></i> Create New Order
+                                    <i class="ph-duotone ph-shopping-cart me-2"></i> {{ __('general.create_new_order') }}
                                 </a>
                             @endif
                         </div>
@@ -191,10 +191,10 @@
                 <div class="col-12 mb-4">
                     <div class="card customer-data-card">
                         <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="ph-duotone ph-shopping-cart me-2"></i>Customer Orders</h5>
+                            <h5 class="mb-0"><i class="ph-duotone ph-shopping-cart me-2"></i>{{ __('general.customer_orders') }}</h5>
                             @if(route('admin.orders.create'))
                                 <a href="{{ route('admin.orders.create', ['customer_id' => $customer->id]) }}" class="btn btn-sm btn-primary">
-                                    <i class="ph-duotone ph-plus me-1"></i> New Order
+                                    <i class="ph-duotone ph-plus me-1"></i> {{ __('general.new_order') }}
                                 </a>
                             @endif
                         </div>
@@ -203,11 +203,11 @@
                                 <table class="table table-hover mb-0">
                                     <thead class="bg-light">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>{{ __('general.id') }}</th>
+                                        <th>{{ __('general.date') }}</th>
+                                        <th>{{ __('general.total') }}</th>
+                                        <th>{{ __('general.status') }}</th>
+                                        <th>{{ __('general.actions') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -243,19 +243,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCustomerModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="deleteCustomerModalLabel">{{ __('general.confirm_deletion') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete customer <strong>{{ $customer->name }}</strong>?</p>
-                    <p class="text-danger"><small>This action cannot be undone.</small></p>
+                    <p>{{ __('general.are_you_sure_delete_customer') }} <strong>{{ $customer->name }}</strong>?</p>
+                    <p class="text-danger"><small>{{ __('general.action_cannot_be_undone') }}</small></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('general.cancel') }}</button>
                     <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete Customer</button>
+                        <button type="submit" class="btn btn-danger">{{ __('general.delete_customer') }}</button>
                     </form>
                 </div>
             </div>

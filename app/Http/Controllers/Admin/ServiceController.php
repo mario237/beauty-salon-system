@@ -32,10 +32,14 @@ class ServiceController extends Controller
             $service['added_by'] = Auth::user()->id;
             Service::create($service);
             DB::commit();
-            return redirect()->route('admin.services.index')->with(['success' => 'Service is created successfully']);
+            return redirect()->route('admin.services.index')->with(['success' =>
+                trans('general.model_is_created_successfully', ['model' => trans('general.service')])
+            ]);
         } catch (Throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.service')])
+            ]);
         }
     }
 
@@ -57,21 +61,23 @@ class ServiceController extends Controller
             $employee = Service::find($id);
             $employee->update($request->validated());
             DB::commit();
-            return redirect()->route('admin.services.index')->with(['success' => 'Service is updated successfully']);
+            return redirect()->route('admin.services.index')->with(['success' =>
+                trans('general.model_is_updated_successfully', ['model' => trans('general.service')])
+            ]);
         } catch (Throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
-
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.update'), 'model' => trans('general.service')])
+            ]);
         }
     }
 
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         Service::find($id)->delete();
         return response()->json([
             'success' => 'true',
-            'message' => 'Service is deleted successfully'
+            'message' => trans('general.model_is_deleted_successfully', ['model' => trans('general.service')])
         ]);
     }
 }

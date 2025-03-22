@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Product')
+@section('title', __('general.edit_product'))
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/toastify/toastify.css') }}">
@@ -13,18 +13,18 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Edit Product</h4>
+                <h4 class="main-title">{{ __('general.edit_product') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
-                            <i class="ph-duotone ph-table f-s-16"></i> Dashboard
+                            <i class="ph-duotone ph-table f-s-16"></i> {{ __('general.dashboard') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">Products</a>
+                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">{{ __('general.products') }}</a>
                     </li>
                     <li class="active">
-                        <a href="#" class="f-s-14 f-w-500">Edit Product</a>
+                        <a href="#" class="f-s-14 f-w-500">{{ __('general.edit_product') }}</a>
                     </li>
                 </ul>
             </div>
@@ -38,14 +38,14 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">{{ __('general.name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $product->name) }}" required>
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label">{{ __('general.description') }}</label>
                                 <textarea class="form-control" id="description" name="description">{{ old('description', $product->description) }}</textarea>
                                 @error('description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -53,21 +53,21 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="price" class="form-label">Price</label>
+                                <label for="price" class="form-label">{{ __('general.price') }}</label>
                                 <input type="number" class="form-control" id="price" name="price" step="0.01" value="{{ old('price', $product->price) }}" required>
                                 @error('price')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
+                                <label for="stock" class="form-label">{{ __('general.stock') }}</label>
                                 <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock', $product->stock) }}" required>
                                 @error('stock')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="categories" class="form-label">Categories</label>
+                                <label for="categories" class="form-label">{{ __('general.categories') }}</label>
                                 <select class="form-control category-select" id="categories" name="categories[]" multiple>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}" {{ in_array($category->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -78,7 +78,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="images" class="form-label">Product Images</label>
+                                <label for="images" class="form-label">{{ __('general.product_images') }}</label>
                                 <input type="file" class="form-control" id="images" name="images[]" multiple>
                                 <div class="mt-2">
                                     @foreach($product->images as $image)
@@ -97,7 +97,7 @@
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">{{ __('general.update') }}</button>
                         </form>
                     </div>
                 </div>
@@ -124,13 +124,14 @@
                 let button = $(this);
 
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
+                    title: "{{ __('general.are_you_sure') }}",
+                    text: "{{ __('general.wont_revert') }}",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: "{{ __('general.yes_delete') }}",
+                    cancelButtonText: "{{ __('general.cancel') }}",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -139,10 +140,10 @@
                             data: { _token: '{{ csrf_token() }}' },
                             success: function(response) {
                                 button.closest('.image-preview').remove();
-                                Swal.fire('Deleted!', 'Your image has been deleted.', 'success');
+                                Swal.fire("{{ __('general.deleted') }}", "{{ __('general.image_deleted_success') }}", 'success');
                             },
                             error: function() {
-                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                                Swal.fire("{{ __('general.error') }}", "{{ __('general.something_went_wrong') }}", 'error');
                             }
                         });
                     }

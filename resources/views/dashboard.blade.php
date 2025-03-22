@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Dashboard')
+@section('title', __('general.dashboard'))
 
 @section('main-content')
     <div class="container-fluid">
@@ -14,7 +14,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Reservation::count() }}</h4>
-                                <p class="f-w-500 mb-0">Reservations</p>
+                                <p class="f-w-500 mb-0">{{ __('general.reservations') }}</p>
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Transaction::sum('amount') }}</h4>
-                                <p class="f-w-500 mb-0">Earnings</p>
+                                <p class="f-w-500 mb-0">{{ __('general.earnings') }}</p>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Department::count() }}</h4>
-                                <p class="f-w-500 mb-0">Departments</p>
+                                <p class="f-w-500 mb-0">{{ __('general.departments') }}</p>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Service::count() }}</h4>
-                                <p class="f-w-500 mb-0">Services</p>
+                                <p class="f-w-500 mb-0">{{ __('general.services') }}</p>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Customer::count() }}</h4>
-                                <p class="f-w-500 mb-0">Customers</p>
+                                <p class="f-w-500 mb-0">{{ __('general.customers') }}</p>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                         </span>
                             <div class="mt-5">
                                 <h4>{{ \App\Models\Employee::count() }}</h4>
-                                <p class="f-w-500 mb-0">Employees</p>
+                                <p class="f-w-500 mb-0">{{ __('general.employees') }}</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                 <div class="card">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Reservation Calendar</h5>
+                            <h5 class="mb-0">{{ __('general.reservation_calendar') }}</h5>
                         </div>
                         <div class="card-body">
                             <div id="calendar"></div>
@@ -135,7 +135,7 @@
                 },
                 eventClick: function(info) {
                     // You can add a modal or redirect to show details
-                    alert('Reservation: ' + info.event.title + '\nTime: ' + info.event.start.toLocaleString());
+                    alert('{{ __('general.reservation') }}: ' + info.event.title + '\n{{ __('general.time') }}: ' + info.event.start.toLocaleString());
                 },
                 eventDidMount: function(info) {
                     // Add tooltip with reservation details on hover
@@ -143,8 +143,8 @@
                     tooltip.classList.add('tooltip');
                     tooltip.innerHTML =
                         '<strong>' + info.event.title + '</strong><br>' +
-                        'Start: ' + new Date(info.event.start).toLocaleString() + '<br>' +
-                        'End: ' + new Date(info.event.end || info.event.start).toLocaleString();
+                        '{{ __('general.start') }}: ' + new Date(info.event.start).toLocaleString() + '<br>' +
+                        '{{ __('general.end') }}: ' + new Date(info.event.end || info.event.start).toLocaleString();
 
                     // Create bootstrap tooltip
                     new bootstrap.Tooltip(info.el, {
@@ -185,6 +185,4 @@
             }
         });
     </script>
-
-
 @endpush

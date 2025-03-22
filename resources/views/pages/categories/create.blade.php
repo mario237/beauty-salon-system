@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('title', __('general.add_category'))
-
 @section('main-content')
     <div class="container-fluid">
         <div class="row m-1">
@@ -23,7 +22,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="row">
             <div class="col-12">
                 <div class="card ">
@@ -36,20 +34,17 @@
                             <div class="form-group my-4">
                                 <label for="name">{{ __('general.name') }}</label>
                                 <input id="name" class="form-control @error('name') is-invalid @enderror"
-                                       placeholder="Ex: Skincare" required
+                                       placeholder="{{ __('general.ex_category_name') }}" required
                                        type="text" name="name" value="{{ old('name') }}">
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
                             <div class="form-group my-4">
                                 <label for="is_active">{{ __('general.is_active') }}</label>
                                 <input id="is_active" type="checkbox" name="is_active" value="1"
                                        class="form-check-input" checked>
                             </div>
-
-
                             <button class="btn ripple btn-primary" type="submit">{{ __('general.save') }}</button>
                             <a class="btn ripple btn-secondary" href="{{ route('admin.categories.index') }}">
                                 {{ __('general.back') }}

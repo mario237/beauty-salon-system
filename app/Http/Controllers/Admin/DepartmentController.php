@@ -34,10 +34,14 @@ class DepartmentController extends Controller
             $department['added_by'] = Auth::user()->id;
             Department::create($department);
             DB::commit();
-            return redirect()->route('admin.departments.index')->with(['success' => 'Department is created successfully']);
+            return redirect()->route('admin.departments.index')->with(['success' =>
+                trans('general.model_is_created_successfully', ['model' => trans('general.department')])
+            ]);
         } catch (Throwable $throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.department')])
+            ]);
         }
     }
 
@@ -54,10 +58,14 @@ class DepartmentController extends Controller
             $department = Department::findOrFail($id);
             $department->update($request->validated());
             DB::commit();
-            return redirect()->route('admin.departments.index')->with(['success' => 'Department is updated successfully']);
+            return redirect()->route('admin.departments.index')->with(['success' =>
+                trans('general.model_is_updated_successfully', ['model' => trans('general.department')])
+            ]);
         } catch (Throwable $throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.update'), 'model' => trans('general.department')])
+            ]);
         }
     }
 
@@ -66,7 +74,7 @@ class DepartmentController extends Controller
         Department::find($id)->delete();
         return response()->json([
             'success' => 'true',
-            'message' => 'Department is deleted successfully'
+            'message' => trans('general.model_is_deleted_successfully', ['model' => trans('general.department')])
         ]);
     }
 }

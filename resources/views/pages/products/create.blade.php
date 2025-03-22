@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Create Product')
+@section('title', __('general.create_product'))
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/toastify/toastify.css') }}">
@@ -13,18 +13,18 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Create Product</h4>
+                <h4 class="main-title">{{ __('general.create_product') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
-                            <i class="ph-duotone ph-table f-s-16"></i> Dashboard
+                            <i class="ph-duotone ph-table f-s-16"></i> {{ __('general.dashboard') }}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">Products</a>
+                        <a href="{{ route('admin.products.index') }}" class="f-s-14 f-w-500">{{ __('general.products') }}</a>
                     </li>
                     <li class="active">
-                        <a href="#" class="f-s-14 f-w-500">Create Product</a>
+                        <a href="#" class="f-s-14 f-w-500">{{ __('general.create_product') }}</a>
                     </li>
                 </ul>
             </div>
@@ -37,14 +37,14 @@
                         <form id="productForm" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">{{ __('general.name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name" required>
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label">{{ __('general.description') }}</label>
                                 <textarea class="form-control" id="description" name="description"></textarea>
                                 @error('description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -52,21 +52,21 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="price" class="form-label">Price</label>
+                                <label for="price" class="form-label">{{ __('general.price') }}</label>
                                 <input type="number" class="form-control" id="price" name="price" step="0.01" required>
                                 @error('price')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
+                                <label for="stock" class="form-label">{{ __('general.stock') }}</label>
                                 <input type="number" class="form-control" id="stock" name="stock" required>
                                 @error('stock')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="categories" class="form-label">Categories</label>
+                                <label for="categories" class="form-label">{{ __('general.categories') }}</label>
                                 <select class="form-control category-select" id="categories" name="categories[]" multiple>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -77,14 +77,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="images" class="form-label">Product Images</label>
+                                <label for="images" class="form-label">{{ __('general.product_images') }}</label>
                                 <input type="file" class="form-control" id="images" name="images[]" multiple>
                                 @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{{ __('general.submit') }}</button>
                         </form>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     processData: false,
                     contentType: false,
                     beforeSend: function() {
-                        $('.btn-primary').prop('disabled', true).text('Submitting...');
+                        $('.btn-primary').prop('disabled', true).text("{{ __('general.submitting') }}");
                         $('.overlay').show();
                     },
                     success: function(response) {
@@ -143,14 +143,14 @@
 
                         Swal.fire({
                             icon: 'success',
-                            title: 'Success',
+                            title: "{{ __('general.success') }}",
                             text: response.message,
                         }).then(() => {
                             window.location.href = response.redirect;
                         });
                     },
                     error: function(xhr) {
-                        $('.btn-primary').prop('disabled', false).text('Submit');
+                        $('.btn-primary').prop('disabled', false).text("{{ __('general.submit') }}");
                         $('.overlay').hide();
 
                         let errors = xhr.responseJSON?.errors || { error: xhr.responseJSON?.message };
@@ -158,7 +158,7 @@
 
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: "{{ __('general.error') }}",
                             html: errorMessages,
                         });
                     }

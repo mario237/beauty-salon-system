@@ -1,4 +1,4 @@
-@section('title', 'Sign In')
+@section('title', __('general.sign_in'))
 @include('layout.head')
 
 @include('layout.css')
@@ -30,14 +30,14 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-5 text-center text-lg-start">
-                                        <h2 class="text-primary f-w-600">Welcome To RA-ADMIN! </h2>
-                                        <p>Sign in with your data that you enterd during your registration</p>
+                                        <h2 class="text-primary f-w-600">{{ __('general.welcome_to_ra_admin') }}</h2>
+                                        <p>{{ __('general.sign_in_with_data') }}</p>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" placeholder="Enter your email" id="email">
+                                        <label for="email" class="form-label">{{ __('general.email') }}</label>
+                                        <input name="email" type="email" class="form-control" placeholder="{{ __('general.enter_your_email') }}" id="email">
                                         @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -45,9 +45,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <a href="{{route('password_reset')}}" class="link-primary float-end">Forgot Password ?</a>
-                                        <input name="password" type="password" class="form-control" placeholder="Enter Your Password" id="password">
+                                        <label for="password" class="form-label">{{ __('general.password') }}</label>
+                                        <a href="{{route('password_reset')}}" class="link-primary float-end">{{ __('general.forgot_password') }}</a>
+                                        <input name="password" type="password" class="form-control" placeholder="{{ __('general.enter_your_password') }}" id="password">
                                         @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <button type="submit" role="button" class="btn btn-primary w-100">Sign In</button>
+                                        <button type="submit" role="button" class="btn btn-primary w-100">{{ __('general.sign_in_button') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -71,10 +71,6 @@
 
 </body>
 @section('script')
-
-
     <!-- Bootstrap js-->
     <script src="{{asset('assets/vendor/bootstrap/bootstrap.bundle.min.js')}}"></script>
 @endsection
-
-<?php

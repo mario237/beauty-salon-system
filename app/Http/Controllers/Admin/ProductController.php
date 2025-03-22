@@ -44,14 +44,14 @@ class ProductController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Product created successfully',
+                'message' => trans('general.model_is_created_successfully', ['model' => trans('general.product')]),
                 'redirect' => route('admin.products.index')
             ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => $e->getMessage(),
+                'message' => trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.product')]),
             ], 500);
         }
     }
@@ -81,7 +81,9 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully');
+        return redirect()->route('admin.products.index')->with('success',
+            trans('general.model_is_updated_successfully', ['model' => trans('general.product')])
+        );
     }
 
     public function removeImage($id)
@@ -90,14 +92,15 @@ class ProductController extends Controller
         Storage::disk('public')->delete($image->image_path);
         $image->delete();
 
-        return response()->json(['success' => 'Image removed successfully']);
+        return response()->json(['success' => trans('general.image_deleted_success')]);
     }
 
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('pages.products.index')->with('success', 'Product deleted successfully');
+        return redirect()->route('pages.products.index')->with('success',
+            trans('general.model_is_deleted_successfully', ['model' => trans('general.product')])
+        );
     }
 }
-

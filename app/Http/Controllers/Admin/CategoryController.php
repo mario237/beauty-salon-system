@@ -30,10 +30,14 @@ class CategoryController extends Controller
             $category['added_by'] = Auth::user()->id;
             Category::create($category);
             DB::commit();
-            return redirect()->route('admin.categories.index')->with(['success' => 'Category is created successfully']);
+            return redirect()->route('admin.categories.index')->with(['success' =>
+                trans('general.model_is_created_successfully', ['model' => trans('general.category')])
+            ]);
         } catch (Throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+            trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create') , 'model' =>  trans('general.category')])
+            ]);
         }
     }
 
@@ -50,10 +54,14 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $category->update($request->validated());
             DB::commit();
-            return redirect()->route('admin.categories.index')->with(['success' => 'Category is updated successfully']);
+            return redirect()->route('admin.categories.index')->with(['success' =>
+                trans('general.model_is_updated_successfully', ['model' => trans('general.category')])
+            ]);
         } catch (Throwable) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.update') , 'model' =>  trans('general.category')])
+            ]);
         }
     }
 
@@ -62,7 +70,7 @@ class CategoryController extends Controller
         Category::find($id)->delete();
         return response()->json([
             'success' => 'true',
-            'message' => 'Category is deleted successfully'
+            'message' =>  trans('general.model_is_deleted_successfully', ['model' => trans('general.category')])
         ]);
     }
 }

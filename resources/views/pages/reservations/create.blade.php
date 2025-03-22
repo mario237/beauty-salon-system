@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Add new reservation')
+@section('title', __('general.add_new_reservation'))
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select/select2.min.css')}}">
@@ -9,18 +9,18 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12 ">
-                <h4 class="main-title">Reservations</h4>
+                <h4 class="main-title">{{ __('general.reservations') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
                     <li class="">
                         <a href="{{ route('admin.dashboard') }}" class="f-s-14 f-w-500">
-                            <span><i class="ph-duotone  ph-table f-s-16"></i> Dashboard</span>
+                            <span><i class="ph-duotone  ph-table f-s-16"></i> {{ __('general.dashboard') }}</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="{{ route('admin.reservations.index') }}" class="f-s-14 f-w-500">Reservations</a>
+                        <a href="{{ route('admin.reservations.index') }}" class="f-s-14 f-w-500">{{ __('general.reservations') }}</a>
                     </li>
                     <li class="active">
-                        <a href="{{ route('admin.reservations.create') }}" class="f-s-14 f-w-500">Add new reservation</a>
+                        <a href="{{ route('admin.reservations.create') }}" class="f-s-14 f-w-500">{{ __('general.add_new_reservation') }}</a>
                     </li>
                 </ul>
             </div>
@@ -30,40 +30,40 @@
             <div class="col-12">
                 <div class="card ">
                     <div class="card-header">
-                        <h5>Reservation Data</h5>
+                        <h5>{{ __('general.reservation_data') }}</h5>
                     </div>
                     <div class="card-body p-3">
                         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
-                            Add New Customer
+                            {{ __('general.add_new_customer') }}
                         </button>
                         <!-- Create Customer Modal -->
                         <div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="createCustomerModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="createCustomerModalLabel">Create New Customer</h5>
+                                        <h5 class="modal-title" id="createCustomerModalLabel">{{ __('general.create_customer') }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <form id="create-customer-form">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="customer-name" class="form-label">Name</label>
+                                                <label for="customer-name" class="form-label">{{ __('general.name') }}</label>
                                                 <input type="text" class="form-control" id="customer-name" name="name" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="customer-phone" class="form-label">Phone Number</label>
+                                                <label for="customer-phone" class="form-label">{{ __('general.phone_number') }}</label>
                                                 <input type="text" class="form-control" id="customer-phone" name="phone_number" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="customer-source" class="form-label">Source</label>
+                                                <label for="customer-source" class="form-label">{{ __('general.source') }}</label>
                                                 <select class="form-control" id="customer-source" name="source">
                                                     @foreach($sources as $source)
                                                         <option value="{{ $source }}">{{ Str::headline($source) }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-success">Save</button>
+                                            <button type="submit" class="btn btn-success">{{ __('general.save') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                         <form id="reservation-form" action="{{route('admin.reservations.store')}}" method="post">
                             @csrf
                             <div class="form-group mb-4">
-                                <label for="customer_id">Customer</label>
+                                <label for="customer_id">{{ __('general.customer') }}</label>
                                 <select id="customer_id" class="form-control select2" name="customer_id">
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }} - {{ $customer->phone_number }}</option>
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="form-group my-4">
-                                <label for="start_datetime">Start Date & Time</label>
+                                <label for="start_datetime">{{ __('general.start_datetime') }}</label>
                                 <input id="start_datetime" class="form-control" type="datetime-local" name="start_datetime" required>
                             </div>
 
@@ -90,7 +90,7 @@
                                     <div class="w-100">
                                         <div class="row my-3">
                                             <div class="col-md-6">
-                                                <label class="form-label">Service</label>
+                                                <label class="form-label">{{ __('general.service') }}</label>
                                                 <select class="form-control select2 service-select" name="services[]">
                                                     @foreach ($services as $service)
                                                         <option value="{{ $service->id }}">{{ $service->name }}</option>
@@ -98,38 +98,38 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">Employee</label>
+                                                <label class="form-label">{{ __('general.employee') }}</label>
                                                 <select class="form-control select2 employee-select" name="employees[]">
-                                                    <option value="">Select Date time and Service First</option>
+                                                    <option value="">{{ __('general.select_date_time_service_first') }}</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="row my-3">
                                             <div class="col-md-6">
-                                                <label class="form-label">Discount</label>
+                                                <label class="form-label">{{ __('general.discount') }}</label>
                                                 <input type="number" class="form-control" name="discount[]" step="0.01" value="0">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">Discount Type</label>
+                                                <label class="form-label">{{ __('general.discount_type') }}</label>
                                                 <select class="form-control" name="discount_type[]">
-                                                    <option value="percentage">Percentage</option>
-                                                    <option value="flat">Flat</option>
+                                                    <option value="percentage">{{ __('general.percentage') }}</option>
+                                                    <option value="flat">{{ __('general.flat') }}</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" id="add-service" class="btn btn-secondary mt-2">Add More Services</button>
+                            <button type="button" id="add-service" class="btn btn-secondary mt-2">{{ __('general.add_more_services') }}</button>
 
                             <div class="form-group my-4">
-                                <label for="note">Note</label>
+                                <label for="note">{{ __('general.note') }}</label>
                                 <textarea id="note" class="form-control" name="note" rows="3"></textarea>
                             </div>
 
-                            <button class="btn btn-primary" type="submit">Save</button>
-                            <a class="btn btn-secondary" href="{{ route('admin.reservations.index') }}">Back</a>
+                            <button class="btn btn-primary" type="submit">{{ __('general.save') }}</button>
+                            <a class="btn btn-secondary" href="{{ route('admin.reservations.index') }}">{{ __('general.back') }}</a>
                         </form>
                     </div>
                 </div>
@@ -162,9 +162,9 @@
 
                             console.log(response)
                             if (response.count === 0) {
-                                employeeSelect.append('<option value="">No employees available</option>');
+                                employeeSelect.append('<option value="">' + "{{ __('general.no_employees_available') }}" + '</option>');
                             } else {
-                                employeeSelect.append('<option value="">Select Employee</option>');
+                                employeeSelect.append('<option value="">' + "{{ __('general.select_employee') }}" + '</option>');
                                 employees.forEach(employee => {
                                     employeeSelect.append(`<option value="${employee.id}">${employee.name}</option>`);
                                 });
@@ -172,7 +172,7 @@
                         }
                     });
                 } else {
-                    employeeSelect.html('<option value="">Select Service First</option>');
+                    employeeSelect.html('<option value="">' + "{{ __('general.select_service_first') }}" + '</option>');
                 }
             }
 
@@ -193,7 +193,7 @@
                 let startTime = $('#start_datetime').val();
 
                 if (!startTime) {
-                    alert('Please select a start date and time first.');
+                    alert("{{ __('general.select_start_date_time_first') }}");
                     return;
                 }
 
@@ -202,7 +202,7 @@
                 <div class="w-100">
                     <div class="row my-3">
                         <div class="col-md-6">
-                            <label class="form-label">Service</label>
+                            <label class="form-label">{{ __('general.service') }}</label>
                             <select class="form-control select2 service-select" name="services[]">
                                 @foreach ($services as $service)
                 <option value="{{ $service->id }}">{{ $service->name }}</option>
@@ -210,22 +210,22 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Employee</label>
+                <label class="form-label">{{ __('general.employee') }}</label>
                 <select class="form-control select2 employee-select" name="employees[]">
-                    <option value="">Select Service First</option>
+                    <option value="">{{ __('general.select_service_first') }}</option>
                 </select>
             </div>
         </div>
         <div class="row my-3">
             <div class="col-md-6">
-                <label class="form-label">Discount</label>
+                <label class="form-label">{{ __('general.discount') }}</label>
                 <input type="number" class="form-control" name="discount[]" step="0.01" value="0">
             </div>
             <div class="col-md-6">
-                <label class="form-label">Discount Type</label>
+                <label class="form-label">{{ __('general.discount_type') }}</label>
                     <select class="form-control" name="discount_type[]">
-                    <option value="percentage">Percentage</option>
-                    <option value="flat">Flat</option>
+                    <option value="percentage">{{ __('general.percentage') }}</option>
+                    <option value="flat">{{ __('general.flat') }}</option>
                 </select>
             </div>
         </div>
@@ -248,7 +248,7 @@
                 if ($('.service-group').length > 1) {
                     $(this).closest('.service-group').remove();
                 } else {
-                    alert("At least one service is required.");
+                    alert("{{ __('general.at_least_one_service_required') }}");
                 }
             });
 
@@ -264,25 +264,25 @@
                     contentType: false,
                     processData: false,
                     beforeSend: function() {
-                        $('#submit-btn').prop('disabled', true).text('Submitting...');
+                        $('#submit-btn').prop('disabled', true).text("{{ __('general.submitting') }}");
                     },
                     success: function(response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Success',
-                            text: 'Reservation added successfully!',
+                            title: "{{ __('general.success') }}",
+                            text: "{{ __('general.reservation_added_success') }}",
                         }).then(() => {
                             window.location.href = "{{ route('admin.reservations.index') }}"; // Redirect on success
                         });
                     },
                     error: function(xhr) {
-                        $('#submit-btn').prop('disabled', false).text('Save');
-                        let errors = xhr.responseJSON?.errors || { error: ['Something went wrong!'] };
+                        $('#submit-btn').prop('disabled', false).text("{{ __('general.save') }}");
+                        let errors = xhr.responseJSON?.errors || { error: ["{{ __('general.something_went_wrong') }}"] };
 
                         let errorMessages = Object.values(errors).flat().join('<br>');
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: "{{ __('general.error') }}",
                             html: errorMessages,
                         });
                     }
@@ -300,18 +300,18 @@
                 success: function (response) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Success',
-                        text: 'Customer added successfully!'
+                        title: "{{ __('general.success') }}",
+                        text: "{{ __('general.customer_added_success') }}"
                     }).then(() => {
                         location.reload();
                     });
                 },
                 error: function (xhr) {
-                    let errors = xhr.responseJSON?.errors || { error: ['Something went wrong!'] };
+                    let errors = xhr.responseJSON?.errors || { error: ["{{ __('general.something_went_wrong') }}"] };
                     let errorMessages = Object.values(errors).flat().join('<br>');
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
+                        title: "{{ __('general.error') }}",
                         html: errorMessages
                     });
                 }

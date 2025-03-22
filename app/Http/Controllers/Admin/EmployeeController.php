@@ -37,10 +37,14 @@ class EmployeeController extends Controller
             $employee = Employee::create($data);
             $employee->services()->sync($request->services);
             DB::commit();
-            return redirect()->route('admin.employees.index')->with(['success' => 'Employee is created successfully']);
+            return redirect()->route('admin.employees.index')->with(['success' =>
+                trans('general.model_is_created_successfully', ['model' => trans('general.employee')])
+            ]);
         }catch (Throwable){
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.create'), 'model' => trans('general.employee')])
+            ]);
         }
     }
 
@@ -58,10 +62,15 @@ class EmployeeController extends Controller
             $employee = Employee::findOrFail($id);
             $employee->update($request->validated());
             $employee->services()->sync($request->services);
-            return redirect()->route('admin.employees.index')->with(['success' => 'Employee is updated successfully']);
+            DB::commit();
+            return redirect()->route('admin.employees.index')->with(['success' =>
+                trans('general.model_is_updated_successfully', ['model' => trans('general.employee')])
+            ]);
         }catch (Throwable){
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Error has been occurred']);
+            return redirect()->back()->with(['error' =>
+                trans('general.error_occurred_while_action_on_model', ['action' => trans('general.update'), 'model' => trans('general.employee')])
+            ]);
         }
 
     }
@@ -71,9 +80,10 @@ class EmployeeController extends Controller
         Employee::findOrFail($id)->delete();
         return response()->json([
             'success' => 'true',
-            'message' => 'Employee is deleted successfully'
+            'message' => trans('general.model_is_deleted_successfully', ['model' => trans('general.employee')])
         ]);
     }
+
     public function getAvailableEmployees($serviceId, Request $request)
     {
         $startTime = Carbon::parse($request->query('start_time'));

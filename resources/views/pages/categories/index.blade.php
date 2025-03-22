@@ -117,7 +117,8 @@
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "{{ __('general.yes') }}, {{ __('general.delete') }}!",
+                confirmButtonText: "{{ __('general.yes_delete') }}",
+                cancelButtonText: "{{ __('general.cancel') }}",
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return fetch(url, {

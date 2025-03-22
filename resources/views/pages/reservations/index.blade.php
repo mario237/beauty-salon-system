@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Reservations')
+@section('title', __('general.reservations'))
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatable/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/toastify/toastify.css')}}">
@@ -9,10 +9,10 @@
     <div class="container-fluid">
         <div class="row m-1">
             <div class="col-12">
-                <h4 class="main-title">Reservations</h4>
+                <h4 class="main-title">{{ __('general.reservations') }}</h4>
                 <ul class="app-line-breadcrumbs mb-3">
-                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li class="active"><a href="{{ route('admin.reservations.index') }}">Reservations</a></li>
+                    <li><a href="{{ route('admin.dashboard') }}">{{ __('general.dashboard') }}</a></li>
+                    <li class="active"><a href="{{ route('admin.reservations.index') }}">{{ __('general.reservations') }}</a></li>
                 </ul>
             </div>
         </div>
@@ -20,21 +20,21 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-primary" href="{{ route('admin.reservations.create') }}">Add Reservation</a>
+                        <a class="btn btn-primary" href="{{ route('admin.reservations.create') }}">{{ __('general.add_reservation') }}</a>
                     </div>
                     <div class="card-body p-0">
                         <div class="app-datatable-default overflow-auto">
                             <table id="example" class="display app-data-table default-data-table">
                                 <thead>
                                 <tr>
-                                    <th>Customer Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                    <th>Payment</th>
-                                    <th>Actions</th>
+                                    <th>{{ __('general.customer') }} {{ __('general.name') }}</th>
+                                    <th>{{ __('general.customer') }} {{ __('general.phone') }}</th>
+                                    <th>{{ __('general.start_time') }}</th>
+                                    <th>{{ __('general.end_time') }}</th>
+                                    <th>{{ __('general.total_price') }}</th>
+                                    <th>{{ __('general.status') }}</th>
+                                    <th>{{ __('general.payment_status') }}</th>
+                                    <th>{{ __('general.actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -48,13 +48,13 @@
                                         <td>
                                             @if($reservation->status === 'pending')
                                                 <span
-                                                    class="badge text-warning">{{ ucfirst($reservation->status) }}</span>
+                                                    class="badge text-warning">{{ __('general.pending') }}</span>
                                             @elseif($reservation->status === 'confirmed')
                                                 <span
-                                                    class="badge text-success">{{ ucfirst($reservation->status) }}</span>
-                                            @elseif($reservation->status === 'confirmed')
+                                                    class="badge text-success">{{ __('general.confirmed') }}</span>
+                                            @elseif($reservation->status === 'cancelled')
                                                 <span
-                                                    class="badge text-danger">{{ ucfirst($reservation->status) }}</span>
+                                                    class="badge text-danger">{{ __('general.cancelled') }}</span>
                                             @else
                                                 <span class="badge text-info">{{ ucfirst($reservation->status) }}</span>
                                             @endif
@@ -62,7 +62,7 @@
                                         <td>
                                              <span
                                                  class="badge text-{{ $reservation->transactions->where('status', 'paid')->count() ? 'success' : 'danger' }}">
-                                             {{ $reservation->transactions->where('status', 'paid')->count() ? 'Paid' : 'Unpaid' }}
+                                             {{ $reservation->transactions->where('status', 'paid')->count() ? __('general.paid') : __('general.unpaid') }}
                                     </span>
                                         </td>
                                         <td>
@@ -126,13 +126,14 @@
             url = url.replace(':id', id);
             let message = '';
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "{{ __('general.are_you_sure') }}",
+                text: "{{ __('general.wont_revert') }}",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "{{ __('general.yes_delete') }}",
+                cancelButtonText: "{{ __('general.cancel') }}",
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return fetch(url, {
@@ -150,7 +151,7 @@
                         message = data.message;
                     }).catch(error => {
                         Swal.showValidationMessage(
-                            `Request failed: ${error}`
+                            `{{ __('general.request_failed') }}: ${error}`
                         )
                     })
                 },
@@ -158,7 +159,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: "Successfully",
+                        title: "{{ __('general.successfully') }}",
                         text: message,
                         icon: "success"
                     }).then((result) => {
@@ -169,6 +170,5 @@
                 }
             });
         }
-
     </script>
 @endpush
